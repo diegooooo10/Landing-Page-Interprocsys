@@ -1,7 +1,12 @@
-export const App = () => {
+import React from "react";
+import Servicios from "./components/Servicios"; // Ruta correcta del archivo
+
+function App() {
   return (
-  <>
-  <h1 className="text-2xl text-center ">Interprocsys</h1>
-  </>
+    <div>
+      <Servicios />
+    </div>
   );
-};
+}
+
+export default App;
