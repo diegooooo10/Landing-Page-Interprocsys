@@ -1,5 +1,6 @@
 /* import { useState } from "react"; */
 import { Footer } from "./components/Footer";
+import { Servicios } from "./components/Servicios";
 /* import { FormularioContacto } from "./components/FormularioContacto"; */
 
 export const App = () => {
@@ -17,11 +18,12 @@ export const App = () => {
  */
   return (
     <>
+      <Servicios />
       {/* quitar comentario, esto va dentro de Header
         <div className={mostrar ? "block": "hidden"}>
           <FormularioContacto onCerrar={handleCerrarFormulario} />
         </div>
- */}
+      */}
       <hr className="w-full bg-white h-[1px]" />
       <Footer />
     </>
