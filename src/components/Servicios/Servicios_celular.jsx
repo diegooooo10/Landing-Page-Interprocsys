@@ -3,7 +3,6 @@ import { useState } from "react";
 const ServiceSection = ({ servicio, details }) => {
   return (
     <div className="flex flex-col mb-8 md:flex-row">
-      {/* Sección izquierda con el icono y nombre del servicio alineado a la izquierda */}
       <div className="flex flex-col items-start w-full mb-6 md:w-1/4 md:pl-4">
         <div className="flex items-center space-x-3">
           <img
@@ -17,7 +16,6 @@ const ServiceSection = ({ servicio, details }) => {
         </div>
       </div>
 
-      {/* Información del servicio alineada a la izquierda */}
       <div className="text-left w-full mt-4 md:pl-4">
         <h2 className="text-xl font-semibold text-white md:text-2xl">
           {details.title}
@@ -27,7 +25,6 @@ const ServiceSection = ({ servicio, details }) => {
         </p>
       </div>
 
-      {/* Sección derecha con características y detalle de imagen */}
       <div className="flex flex-col w-full md:w-3/4">
         <div className="flex items-center p-4 bg-[#1c1c1c] rounded-lg shadow-lg mt-4">
           {/* Lista de características a la izquierda */}
@@ -40,7 +37,6 @@ const ServiceSection = ({ servicio, details }) => {
             ))}
           </ul>
 
-          {/* Imagen de detalle a la derecha */}
           <div className="w-1/3 flex justify-center">
             <img
               src={details.detailImage}
@@ -50,7 +46,6 @@ const ServiceSection = ({ servicio, details }) => {
           </div>
         </div>
 
-        {/* Texto de contacto debajo del cuadro principal */}
         <div className="text-center mt-4">
           <p className="text-sm text-[#4dd4ef] md:text-base">
             {details.contactText}

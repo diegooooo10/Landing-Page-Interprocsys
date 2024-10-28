@@ -1,7 +1,7 @@
 // Servicios.jsx
 import { useState, useEffect } from "react";
-import { ServiciosComputadora } from "./Servicios_computadora"; // Componente para computadoras
-import { ServiciosCelular } from "./Servicios_celular"; // Componente para celulares
+import { ServiciosComputadora } from "./Servicios_computadora";
+import { ServiciosCelular } from "./Servicios_celular";
 
 export const Servicios = () => {
   const [windowWidth, setWindowWidth] = useState(null);
