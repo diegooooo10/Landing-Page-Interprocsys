@@ -1,6 +1,6 @@
 /* import { useState } from "react"; */
 import { Footer } from "./components/Footer";
-import { Servicios } from "./components/Servicios";
+import { Servicios } from "./components/Servicios/Servicios";
 /* import { FormularioContacto } from "./components/FormularioContacto"; */
 
 export const App = () => {
