@@ -115,7 +115,7 @@ export const FormularioContacto = ({ onCerrar }) => {
         <div className="text-center ">
           <button
             type="submit"
-            className="mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center mb-3"
+            className="mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-base w-auto px-5 py-2.5 text-center mb-3"
           >
             Enviar
           </button>

@@ -1,15 +1,7 @@
-import { useState } from "react";
+import { Link } from "react-router-dom"; // Importa Link para la navegación
 
-export const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleContactClick = () => {
-    alert('');
-  };
 
   return (
     <header className="bg-gradient-to-b from-blue-900 to-black">
@@ -24,22 +16,22 @@ export const Header = () => {
         </div>
 
         <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-white focus:outline-none">
-            {isOpen ? '✖️' : 'Entrevistas>'}
+          <button onClick={handleMostrar} className="text-white focus:outline-none">
+            Contacto
           </button>
         </div>
 
-        <nav className={`flex-grow md:flex ${isOpen ? 'block' : 'hidden'} md:block`}>
+        <nav className={`flex-grow md:flex`}>
           <div className="flex justify-center md:justify-end md:ml-8"> 
             <ul className="flex flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-7">
               <li>
-                <a href="#servicio" className="text-white" aria-label="Servicio">Servicio</a>
+                <a onClick={onServiciosClick} className="text-white cursor-pointer" aria-label="Servicio">Servicio</a>
               </li>
               <li>
-                <a href="#empresa" className="text-white" aria-label="Empresa">Empresa</a>
+                <a onClick={onEmpresaClick} className="text-white cursor-pointer" aria-label="Empresa">Empresa</a>
               </li>
               <li>
-                <a href="#entrevista" className="text-white" aria-label="Entrevista">Entrevista</a>
+                <Link to="/entrevistas" className="text-white" aria-label="Entrevista">Entrevista</Link>
               </li>
             </ul>
           </div>
@@ -57,7 +49,7 @@ export const Header = () => {
           Transforma tu negocio hoy con soluciones innovadoras y personalizadas
         </p>
         <button 
-          onClick={handleContactClick}
+          onClick={handleMostrar}
           className="px-8 py-4 mt-4 text-lg text-black transition duration-300 rounded shadow-md bg-cyan-500 hover:bg-cyan-600"
           aria-label="Contáctanos"
         >
@@ -83,4 +75,3 @@ export const Header = () => {
     </header>
   );
 };
-
