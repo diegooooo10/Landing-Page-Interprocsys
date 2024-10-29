@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const Servicios = () => {
+export const ServiciosComputadora = () => {
   const [hoveredService, setHoveredService] = useState("Infraestructura");
 
   const handleMouseEnter = (servicio) => {
@@ -68,11 +68,8 @@ export const Servicios = () => {
         </div>
 
         <div className="flex flex-col gap-10 md:flex-row">
-          <div className="flex items-start w-full md:w-1/4 ml-44">
-            <div
-              className="w-[4px] h-full bg-[#00c2ff] mr-4"
-
-            ></div>
+          <div className="flex items-start w-full md:w-1/4 md:ml-8 lg:ml-16">
+            <div className="w-[4px] h-full bg-[#00c2ff] mr-4"></div>
             <ul className="space-y-12">
               {Object.keys(serviceDetails).map((servicio) => (
                 <li
@@ -88,7 +85,7 @@ export const Servicios = () => {
                   <img
                     src={serviceImages[servicio]}
                     alt={servicio}
-                    className="mb-6 w-14 h-14"
+                    className="w-12 h-12 mb-6 md:w-14 md:h-14"
                   />
                   <span className="text-lg" style={{ lineHeight: "120px" }}>
                     {servicio}
@@ -97,8 +94,9 @@ export const Servicios = () => {
               ))}
             </ul>
           </div>
+
           <div className="relative w-full md:w-3/4">
-            <div className="absolute left-[130px] top-[40px] text-left">
+            <div className="absolute left-[10%] md:left-[130px] top-[40px] text-left">
               <h2 className="mb-4 text-3xl text-white font-poppins">
                 {serviceDetails[hoveredService].title}
               </h2>
@@ -106,7 +104,7 @@ export const Servicios = () => {
                 {serviceDetails[hoveredService].description}
               </p>
             </div>
-            <div className="absolute top-[180px] bg-[#1c1c1c] p-6 rounded-lg shadow-lg w-[710px] h-[220px] flex items-center left-[130px]">
+            <div className="absolute top-[180px] bg-[#1c1c1c] p-6 rounded-lg shadow-lg w-[90%] md:w-[75%] lg:w-[500px] h-auto flex items-center left-[10%] md:left-[130px]">
               <ul className="pl-5 mr-4 space-y-2 text-lg text-white list-disc font-quicksand">
                 {serviceDetails[hoveredService].features.map(
                   (elemento, index) => (
@@ -120,11 +118,12 @@ export const Servicios = () => {
               <img
                 src={detailImages[hoveredService]}
                 alt={hoveredService}
-                className="object-cover w-[300px] h-auto mb-4"
-                style={{ marginTop: "40px" }}
+                className="object-cover w-1/3 h-auto mb-4"
+                style={{ marginTop: "20px" }}
               />
             </div>
-            <div className="absolute right-20 text-center top-[420px] mr-16">
+
+            <div className="absolute top-[420px] left-[10%] md:left-[130px] text-center w-[90%] md:w-[75%] lg:w-[500px]">
               <p className="font-poppins text-lg text-[#4dd4ef] mt-4">
                 {serviceDetails[hoveredService].contactText}
               </p>
