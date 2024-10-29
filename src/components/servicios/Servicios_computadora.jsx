@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export const Servicios = () => {
+export const ServiciosComputadora = () => {
   const [hoveredService, setHoveredService] = useState("Infraestructura");
 
-  const handleMouseEnter = (servicio) => {
-    setHoveredService(servicio);
+  const handleMouseEnter = (ServiciosComputadora) => {
+    setHoveredService(ServiciosComputadora);
   };
 
   const handleMouseLeave = () => {};
@@ -58,9 +58,9 @@ export const Servicios = () => {
     <section className="bg-[#303030] py-12 min-h-screen relative">
       <div className="container px-4 mx-auto">
         <div className="mt-5 mb-20 text-center">
-          <h1 className="font-poppins text-4xl font-semibold text-[#4dd4ef]">
+          <h2 id="servicios" className="font-poppins text-4xl font-semibold text-[#4dd4ef]">
             Servicios
-          </h1>
+          </h2>
           <p className="mt-5 text-xl text-white font-quicksand">
             Soluciones personalizadas que permiten superar expectativas en
             calidad, tiempo y costos.
@@ -69,10 +69,7 @@ export const Servicios = () => {
 
         <div className="flex flex-col gap-10 md:flex-row">
           <div className="flex items-start w-full md:w-1/4 ml-44">
-            <div
-              className="w-[4px] h-full bg-[#00c2ff] mr-4"
-
-            ></div>
+            <div className="w-[4px] h-full bg-[#00c2ff] mr-4"></div>
             <ul className="space-y-12">
               {Object.keys(serviceDetails).map((servicio) => (
                 <li
@@ -98,6 +95,8 @@ export const Servicios = () => {
             </ul>
           </div>
           <div className="relative w-full md:w-3/4">
+            {" "}
+            {/* */}
             <div className="absolute left-[130px] top-[40px] text-left">
               <h2 className="mb-4 text-3xl text-white font-poppins">
                 {serviceDetails[hoveredService].title}
@@ -106,7 +105,7 @@ export const Servicios = () => {
                 {serviceDetails[hoveredService].description}
               </p>
             </div>
-            <div className="absolute top-[180px] bg-[#1c1c1c] p-6 rounded-lg shadow-lg w-[710px] h-[220px] flex items-center left-[130px]">
+            <div className="absolute top-[180px] bg-[#1c1c1c] p-6 rounded-lg shadow-lg w-[600px] md:w-auto h-[220px] flex items-center left-[130px]">
               <ul className="pl-5 mr-4 space-y-2 text-lg text-white list-disc font-quicksand">
                 {serviceDetails[hoveredService].features.map(
                   (elemento, index) => (
@@ -120,7 +119,7 @@ export const Servicios = () => {
               <img
                 src={detailImages[hoveredService]}
                 alt={hoveredService}
-                className="object-cover w-[300px] h-auto mb-4"
+                className="object-cover w-1/2 h-auto mb-4"
                 style={{ marginTop: "40px" }}
               />
             </div>
