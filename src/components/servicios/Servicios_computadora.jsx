@@ -97,18 +97,18 @@ export const ServiciosComputadora = () => {
 
           <div className="relative w-full md:w-3/4">
             <div className="absolute left-[10%] md:left-[130px] top-[40px] text-left">
-              <h2 className="mb-4 text-3xl text-white font-poppins">
+              <h2 className="mb-4 text-2xl text-white font-poppins">
                 {serviceDetails[hoveredService].title}
               </h2>
-              <p className="text-lg leading-relaxed text-white font-quicksand">
+              <p className="text-xl leading-relaxed text-white font-quicksand">
                 {serviceDetails[hoveredService].description}
               </p>
             </div>
             <div className="absolute top-[180px] bg-[#1c1c1c] p-6 rounded-lg shadow-lg w-[90%] md:w-[75%] lg:w-[500px] h-auto flex items-center left-[10%] md:left-[130px]">
-              <ul className="pl-5 mr-4 space-y-2 text-lg text-white list-disc font-quicksand">
+              <ul className="pl-5 mr-4 space-y-2 text-base text-white list-disc font-quicksand">
                 {serviceDetails[hoveredService].features.map(
                   (elemento, index) => (
-                    <li key={index} className="flex items-center mb-2">
+                    <li key={index} className="flex items-center mb-2 text-base">
                       <span className="text-[#4dd4ef] mr-2">•</span>
                       <span>{elemento}</span>
                     </li>
@@ -124,7 +124,7 @@ export const ServiciosComputadora = () => {
             </div>
 
             <div className="absolute top-[420px] left-[10%] md:left-[130px] text-center w-[90%] md:w-[75%] lg:w-[500px]">
-              <p className="font-poppins text-lg text-[#4dd4ef] mt-4">
+              <p className="font-poppins text-xl text-[#4dd4ef] mt-4">
                 {serviceDetails[hoveredService].contactText}
               </p>
             </div>
