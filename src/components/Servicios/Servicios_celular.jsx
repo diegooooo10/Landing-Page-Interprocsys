@@ -2,52 +2,47 @@ import { useState } from "react";
 
 const ServiceSection = ({ servicio, details }) => {
   return (
-    <div className="flex flex-col mb-8 md:flex-row">
-      <div className="flex flex-col items-start w-full mb-6 md:w-1/4 md:pl-4">
-        <div className="flex items-center space-x-3">
-          <img
-            src={details.image}
-            alt={servicio}
-            className="w-10 h-10 md:w-12 md:h-12"
-          />
-          <span className="text-lg font-semibold text-[#4dd4ef] md:text-xl">
-            {servicio}
-          </span>
-        </div>
+    <div className="flex flex-col md:flex-row items-center mb-8 md:gap-4 lg:gap-6">
+      <div className="flex items-center w-full mb-4 md:w-1/3 md:pl-4 lg:pl-6">
+        <img
+          src={details.image}
+          alt={servicio}
+          className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 mr-4"
+        />
+        <span className="text-lg font-semibold text-[#4dd4ef] md:text-xl lg:text-2xl">
+          {servicio}
+        </span>
       </div>
 
-      <div className="text-left w-full mt-4 md:pl-4">
-        <h2 className="text-xl font-semibold text-white md:text-2xl">
+      <div className="w-full md:w-2/3">
+        <h2 className="text-lg font-semibold text-white md:text-xl lg:text-2xl">
           {details.title}
         </h2>
-        <p className="text-sm text-white md:text-base mt-1">
+        <p className="text-sm text-white mt-2 md:text-base lg:text-lg">
           {details.description}
         </p>
-      </div>
 
-      <div className="flex flex-col w-full md:w-3/4">
-        <div className="flex items-center p-4 bg-[#1c1c1c] rounded-lg shadow-lg mt-4">
-          {/* Lista de características a la izquierda */}
-          <ul className="w-2/3 space-y-2 text-sm text-white list-disc pl-4">
+        {/* Cuadro de características e imagen alineados horizontalmente */}
+        <div className="flex flex-row items-center p-4 md:p-6 bg-[#1c1c1c] rounded-lg shadow-lg gap-4 mt-4 lg:gap-6">
+          <ul className="w-2/3 space-y-2 text-sm text-white list-disc pl-4 md:text-base lg:text-lg">
             {details.features.map((feature, index) => (
-              <li key={index} className="flex items-start leading-relaxed">
-                <span className="text-[#4dd4ef] mr-2">•</span>
+              <li key={index} className="leading-relaxed">
                 {feature}
               </li>
             ))}
           </ul>
 
-          <div className="w-1/3 flex justify-center">
+          <div className="flex-shrink-0">
             <img
               src={details.detailImage}
               alt={servicio}
-              className="w-28 h-28 object-contain"
+              className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 object-contain"
             />
           </div>
         </div>
 
-        <div className="text-center mt-4">
-          <p className="text-sm text-[#4dd4ef] md:text-base">
+        <div className="text-center mt-4 md:mt-6">
+          <p className="text-sm text-[#4dd4ef] md:text-base lg:text-lg">
             {details.contactText}
           </p>
         </div>
@@ -97,13 +92,13 @@ export const ServiciosCelular = () => {
   };
 
   return (
-    <section className="bg-[#303030] py-6 min-h-screen relative">
+    <section className="bg-[#303030] py-4 md:py-6 min-h-screen">
       <div className="container px-4 mx-auto">
-        <div className="mt-5 mb-10 text-center">
-          <h1 className="text-3xl font-semibold text-[#4dd4ef] md:text-4xl">
+        <div className="mt-5 mb-8 text-center">
+          <h1 className="text-2xl font-semibold text-[#4dd4ef] md:text-3xl">
             Servicios
           </h1>
-          <p className="mt-3 text-base text-white md:text-lg">
+          <p className="mt-2 text-base text-white md:text-lg">
             Soluciones personalizadas que permiten superar expectativas en
             calidad, tiempo y costos.
           </p>

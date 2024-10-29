@@ -23,6 +23,6 @@ export const Servicios = () => {
   if (windowWidth === null) return null;
 
   return (
-    <>{windowWidth < 768 ? <ServiciosCelular /> : <ServiciosComputadora />}</>
+    <>{windowWidth < 769 ? <ServiciosCelular /> : <ServiciosComputadora />}</>
   );
 };
