@@ -11,7 +11,7 @@ De esta forma se pueden usar clases para reutilizar
 */
 
 .svg {
-  @apply w-[35px] h-[35px] border rounded-full md:p-1 md:w-14 md:h-14 text-TextoEspecial border-TextoEspecial hover:opacity-80;
+  @apply w-10 h-10 border rounded-full md:p-1 md:w-14 md:h-14 text-TextoEspecial border-TextoEspecial hover:opacity-80;
 }
 
 .inputFormularioContacto {

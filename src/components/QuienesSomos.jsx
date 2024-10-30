@@ -1,7 +1,8 @@
 export const QuienesSomos = () => {
   return (
     <section className="flex items-center justify-center w-full min-h-screen py-10 bg-FondoColor2">
-      <div className="w-full mx-auto max-w-7xl">
+
+      <div className="w-full mx-auto max-w-7xl">  
         <div className="grid items-center grid-cols-1 gap-8 px-4 text-white md:grid-cols-2">
           <div>
             <h1 className="mb-4 text-4xl font-medium md:mb-7 font-poppins text-TextoEspecial md:text-5xl">

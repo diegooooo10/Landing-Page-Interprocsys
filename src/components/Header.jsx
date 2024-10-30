@@ -1,76 +1,71 @@
-import { Link } from "react-router-dom"; // Importa Link para la navegación
+import { Link } from "react-router-dom";
 
 export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
-
-
   return (
-    <header className="bg-gradient-to-b from-blue-900 to-black">
-      <div className="container flex items-center justify-between p-4 mx-auto">
-        <div className="flex items-center">
-          <img
-            src="ips-adobbe.webp" 
-            alt="INTERPROCSYS Logo"
-            className="w-12 h-12 mr-2"
-          />
-          <h1 className="text-[36px] font-poppins font-bold text-white">INTERPROCSYS</h1>
+    <header className=" bg-gradient-to-t from-FondoColor2 to-FondoEspecial">
+<div className="grid items-center grid-cols-3 pt-2 text-white">
+  <div className="flex">
+    <img
+      src="ips-adobbe.webp"
+      alt="Interprocsys logo"
+      className="xl:h-[125px] xl:w-[125px] h-[65px] w-[65px]"
+    />
+    <h1 className="content-center text-xl font-medium md:content-start xl:text-4xl font-poppins">INTERPROCSYS</h1>
+  </div>
+
+  <div className="block lg:hidden"></div>
+
+  <nav className="flex justify-center">
+    <ul className="flex space-x-0 text-base font-medium lg:space-x-10 lg:text-xl font-poppins">
+      <li className="hidden cursor-pointer hover:opacity-50 lg:flex">
+        <a onClick={onEmpresaClick}>Empresa</a>
+      </li>
+      <li className="hidden cursor-pointer hover:opacity-50 lg:flex">
+        <a onClick={onServiciosClick}>Servicios</a>
+      </li>
+      <li className="flex items-start cursor-pointer hover:opacity-50">
+        <Link to="/entrevistas" className="">Entrevistas </Link>
+        <span className="block ml-1 lg:hidden">&gt;</span>
+
+      </li>
+    </ul>
+  </nav>
+  
+  <div className="hidden lg:block"></div>
+</div>
+
+
+      <div className="flex-col content-center w-full h-screen px-10 mx-auto lg:w-3/4 lg:grid lg:grid-cols-2">
+        <div className="text-center">
+          <p className="mb-20 text-4xl font-semibold lg:text-6xl font-poppins lg:mb-2">
+            <span className="text-white">Expertos en </span>
+            <span className="text-TextoEspecial">Tecnologías </span>
+            <br />
+            <span className="text-TextoEspecial">4.0 </span>
+            <span className="text-white">y </span>
+            <span className="text-TextoEspecial">Blockchain </span>
+          </p>
+          <p className="mb-20 text-xl font-semibold text-white lg:text-2xl font-quicksand lg:mb-0">
+            Transforma tu negocio hoy con soluciones innovadoras y personalizadas
+          </p>
         </div>
 
-        <div className="md:hidden">
-          <button onClick={handleMostrar} className="text-white focus:outline-none">
-            Contacto
+        <div className="text-center">
+          <button
+            onClick={handleMostrar}
+            className="p-3 text-xl font-medium text-black rounded-md bg-TextoEspecial font-poppins lg:h-[80px] lg:w-[220px] hover:opacity-50"
+          >
+            Contáctanos
           </button>
         </div>
-
-        <nav className={`flex-grow md:flex`}>
-          <div className="flex justify-center md:justify-end md:ml-8"> 
-            <ul className="flex flex-col space-y-5 md:flex-row md:space-y-0 md:space-x-7">
-              <li>
-                <a onClick={onServiciosClick} className="text-white cursor-pointer" aria-label="Servicio">Servicio</a>
-              </li>
-              <li>
-                <a onClick={onEmpresaClick} className="text-white cursor-pointer" aria-label="Empresa">Empresa</a>
-              </li>
-              <li>
-                <Link to="/entrevistas" className="text-white" aria-label="Entrevista">Entrevista</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
       </div>
 
-      <div className="flex flex-col items-center justify-center h-screen text-center">
-        <h2 className="text-[60px] font-poppins font-medium text-white mb-2">
-          Expertos en <span className="text-blue-300">Tecnología</span>
-        </h2>
-        <p className="text-[60px] font-poppins font-medium text-blue-500 mb-4">
-          <span className="text-blue-500">4.0</span> y <span className="text-blue-500">Blockchain</span>
-        </p>
-        <p className="mt-4 text-lg text-white">
-          Transforma tu negocio hoy con soluciones innovadoras y personalizadas
-        </p>
-        <button 
-          onClick={handleMostrar}
-          className="px-8 py-4 mt-4 text-lg text-black transition duration-300 rounded shadow-md bg-cyan-500 hover:bg-cyan-600"
-          aria-label="Contáctanos"
-        >
-          Contáctanos
-        </button>
-      </div>  
-
-      <div className="relative">
-        <svg 
-          className="w-full"
-          viewBox="0 0 1440 150" 
-          preserveAspectRatio="none"
-        >
-          <path 
-            fill="rgba(2, 56, 113, 1)" 
-            d="M0,150 C720,0 1440,150 1440,150 L0,150 Z"
-          />
-          <text x="50%" y="100" textAnchor="middle" className="text-3xl font-semibold text-white">
-            ¿Quiénes somos?
-          </text>
-        </svg>
+      <div className="grid grid-cols-3">
+        <hr className="w-full h-[5px] bg-TextoEspecial" />
+        <span className="text-[14px] font-medium text-center text-white md:text-2xl font-poppins ">
+          ¿Quiénes Somos?
+        </span>
+        <hr className="w-full h-[5px] bg-TextoEspecial" />
       </div>
     </header>
   );
