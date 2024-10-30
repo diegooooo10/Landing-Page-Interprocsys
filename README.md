@@ -1,5 +1,7 @@
 # ips-web-cetis1
 Repo de trabajo CETIS 1
+[Link de Landing page](https://pruebas-landing-page-ips.netlify.app/)
+
 
 # Instrucciones para configurar el proyecto
 
@@ -21,3 +23,4 @@ Repo de trabajo CETIS 1
     ```bash
     npm run dev
 con esto podras entrar a: `http://localhost:5173/`
+
