@@ -1,4 +1,3 @@
-
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fade, setFade] = useState(false);
@@ -9,7 +8,7 @@ const Header = () => {
   };
 
   const handleContactClick = () => {
-    alert(''); // Implementa tu lógica aquí
+    alert(''); 
   };
 
   const handleSectionClick = (section) => {
@@ -39,7 +38,7 @@ const Header = () => {
           </button>
         </div>
 
-        <nav className={`flex-grow ${isOpen ? 'block' : 'hidden'} md:flex md:items-center`}>
+        <nav className={`flex-grow ${isOpen ? 'block' : 'hidden'} md:flex md:items-center`} role="navigation">
           <div className="flex flex-col md:flex-row md:justify-end md:ml-8"> 
             <ul className={`flex flex-col items-center md:flex-row md:justify-end space-y-5 md:space-y-0 md:space-x-7`}>
               <li>
