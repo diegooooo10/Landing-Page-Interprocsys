@@ -8,7 +8,7 @@ export const QuienesSomos = () => {
             <h1 className="mb-4 text-4xl font-medium md:mb-7 font-poppins text-TextoEspecial md:text-5xl">
               Interprocsys
             </h1>
-            <p className="text-xl text-justify font-quicksand">
+            <p className="text-base text-justify lg:text-xl font-quicksand">
               Somos una empresa mexicana con amplia experiencia en banca,
               telecomunicaciones y finanzas. Superamos tus expectativas con
               tecnologías avanzadas y soluciones a medida.
