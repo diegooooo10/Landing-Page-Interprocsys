@@ -1,8 +1,7 @@
 export const QuienesSomos = () => {
   return (
     <section className="flex items-center justify-center w-full min-h-screen py-10 bg-FondoColor2">
-
-      <div className="w-full mx-auto max-w-7xl">  
+      <div className="w-full mx-auto max-w-7xl">
         <div className="grid items-center grid-cols-1 gap-8 px-4 text-white md:grid-cols-2">
           <div>
             <h1 className="mb-4 text-4xl font-medium md:mb-7 font-poppins text-TextoEspecial md:text-5xl">
@@ -30,13 +29,13 @@ export const QuienesSomos = () => {
             Beneficios clave
           </h3>
           <ul className="flex flex-col items-center justify-center gap-6 text-base list-none md:flex-row md:gap-12">
-            <li className="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-3 before:h-3 before:bg-TextoEspecial before:rotate-45 before:rounded-sm">
+            <li className=" pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial">
               Innovación y vanguardia
             </li>
-            <li className="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-3 before:h-3 before:bg-TextoEspecial before:rotate-45 before:rounded-sm">
+            <li className=" pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial">
               Experiencia en múltiples sectores
             </li>
-            <li className="relative pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-3 before:h-3 before:bg-TextoEspecial before:rotate-45 before:rounded-sm">
+            <li className=" pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial">
               Soluciones personalizadas
             </li>
           </ul>
