@@ -1,6 +1,9 @@
 # ips-web-cetis1
 Repo de trabajo CETIS 1
 
+[Link de Landing page](https://pruebas-landing-page-ips.netlify.app/)
+
+
 # Instrucciones para configurar el proyecto
 
 1. Primero se tiene que tener **NodeJS** instalado.
@@ -13,7 +16,12 @@ Repo de trabajo CETIS 1
 
    ```bash
    npm install -D tailwindcss postcss autoprefixer
-5. Ahora que está todo instalado, para poder ver en local los cambios que se hagan, ejecutar:
+5. Posterior a este se ejecutrara el siguiente para instalar React-Router-DOM
+
+   ```bash
+   npm install react-router-dom
+7. Ahora que está todo instalado, para poder ver en local los cambios que se hagan, ejecutar:
     ```bash
     npm run dev
 con esto podras entrar a: `http://localhost:5173/`
+

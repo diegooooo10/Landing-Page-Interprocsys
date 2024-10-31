@@ -10,7 +10,7 @@ export const Footer = () => {
     <footer className="flex flex-col justify-center h-auto bg-FondoColor2 md:h-36">
       <div className="grid items-center w-full min-w-full grid-cols-2 gap-4 px-2">
         {/* Sección de íconos */}
-        <section className="flex justify-center gap-3 mt-5 md:mt-0 sm:justify-start">
+        <section className="flex justify-center gap-3 sm:justify-start">
           <a
             href="https://www.facebook.com/Interprocsysmx/"
             target="_blank"
@@ -38,7 +38,7 @@ export const Footer = () => {
         </section>
 
         {/* Sección de texto */}
-        <section className="text-[10px] py-2 md:py-0 font-medium text-right text-white md:text-base font-quicksand">
+        <section className="py-2 lg:text-base text-[10px] font-medium text-right text-white md:py-0 font-quicksand">
           <p className="mb-2 ">© 2019-2024 Interprocsys S.A de C.V. v1.8.0</p>
           <p className="mb-2 ">contacto@interprocsys.com</p>
           <p>
