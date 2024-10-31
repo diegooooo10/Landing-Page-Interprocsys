@@ -4,7 +4,7 @@ import { Header } from "./components/Header";
 import { Servicios } from "./components/servicios/Servicios";
 import { FormularioContacto } from "./components/FormularioContacto";
 import { QuienesSomos } from "./components/QuienesSomos";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Carousel } from "./components/Entrevistas";
 
 export const App = () => {
@@ -77,6 +77,9 @@ export const App = () => {
         />
         {/* Para la sección de entrevistas */}
         <Route path="/entrevistas" element={<Carousel />} />
+        
+        {/* Ruta para redirigir a páginas no encontradas */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
