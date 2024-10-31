@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import entrevistasData from "../mocks/entrevistas.json";
 
 export const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -6,19 +7,8 @@ export const Carousel = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/src/mocks/entrevistas.json");
-        if (!response.ok) throw new Error("Error al cargar los datos");
-        const data = await response.json();
-        setEntrevistas(data.entrevistas || []);
-      } catch (error) {
-        console.error("Error al obtener los datos:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
+    setEntrevistas(entrevistasData.entrevistas || []);
+    setIsLoading(false);
   }, []);
 
   const itemsToShow = 3;
@@ -53,6 +43,7 @@ export const Carousel = () => {
     currentIndex,
     currentIndex + itemsToShow
   );
+
 
   return (
     <div className="relative flex flex-col items-center justify-start min-h-screen p-4 text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
