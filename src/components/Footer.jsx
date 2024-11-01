@@ -38,7 +38,7 @@ export const Footer = () => {
         </section>
 
         {/* Sección de texto */}
-        <section className="py-2 text-[1px] font-medium text-right text-white lg:text-base md:py-0 font-quicksand">
+        <section className="py-2 text-sm font-medium text-right text-white lg:text-base md:py-0 font-quicksand">
           <p className="mb-2 ">© 2019-2024 Interprocsys S.A de C.V. v1.8.0</p>
           <p className="mb-2">contacto@interprocsys.com</p>
           <p>

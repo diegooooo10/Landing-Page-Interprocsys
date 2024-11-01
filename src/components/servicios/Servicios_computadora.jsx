@@ -7,8 +7,6 @@ export const ServiciosComputadora = () => {
     setHoveredService(servicio);
   };
 
-  const handleMouseLeave = () => {};
-
   const serviceDetails = {
     Infraestructura: {
       title: "El poder de la nube a su servicio",
@@ -38,7 +36,7 @@ export const ServiciosComputadora = () => {
         "Confianza",
         "Privacidad",
       ],
-      contactText: "¡Hable con experto en Blockchain hoy mismo!",
+      contactText: "¡Hable con un experto en Blockchain hoy mismo!",
     },
   };
 
@@ -55,9 +53,9 @@ export const ServiciosComputadora = () => {
   };
 
   return (
-    <section className="bg-[#303030] py-12 min-h-screen relative">
+    <section className="bg-[#303030] py-12 min-h-screen content-center ">
       <div className="container px-4 mx-auto">
-        <div className="mt-5 mb-20 text-center">
+        <div className="mt-5 text-center mb-96">
           <h1 className="font-poppins text-4xl font-semibold text-[#4dd4ef]">
             Servicios
           </h1>
@@ -67,68 +65,76 @@ export const ServiciosComputadora = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-10 md:flex-row">
-          <div className="flex items-start w-full md:w-1/4 md:ml-8 lg:ml-16">
-            <div className="w-[4px] h-full bg-[#00c2ff] mr-4"></div>
-            <ul className="space-y-12">
+        <div className="grid grid-cols-[1fr_auto] gap-0 ">
+          <div className="w-1 bg-[#4dd4ef] h-[17rem] ml-2"></div>
+
+          <div className="grid grid-cols-1 gap-0 md:grid-cols-2">
+            <div className="flex flex-col space-y-8">
               {Object.keys(serviceDetails).map((servicio) => (
-                <li
+                <div
                   key={servicio}
-                  className={`flex items-center cursor-pointer space-x-5 ${
+                  className={`flex items-center cursor-pointer space-x-5 p-4 rounded-lg h-16 ${
                     hoveredService === servicio
                       ? "text-[#4dd4ef] opacity-100"
                       : "text-[#4dd4ef] opacity-50"
                   } mb-6 transition-opacity duration-300`}
                   onMouseEnter={() => handleMouseEnter(servicio)}
-                  onMouseLeave={handleMouseLeave}
                 >
                   <img
                     src={serviceImages[servicio]}
                     alt={servicio}
-                    className="w-12 h-12 mb-6 md:w-14 md:h-14"
+                    className="w-12 h-12"
                   />
-                  <span className="text-lg" style={{ lineHeight: "120px" }}>
-                    {servicio}
-                  </span>
-                </li>
+                  <span className="text-lg">{servicio}</span>
+                </div>
               ))}
-            </ul>
-          </div>
-
-          <div className="relative w-full md:w-3/4">
-            <div className="absolute left-[10%] md:left-[130px] top-[40px] text-left">
-              <h2 className="mb-4 text-2xl text-white font-poppins">
-                {serviceDetails[hoveredService].title}
-              </h2>
-              <p className="text-xl leading-relaxed text-white font-quicksand">
-                {serviceDetails[hoveredService].description}
-              </p>
-            </div>
-            <div className="absolute top-[180px] bg-[#1c1c1c] p-6 rounded-lg shadow-lg w-[90%] md:w-[75%] lg:w-[500px] h-auto flex items-center left-[10%] md:left-[130px]">
-              <ul className="pl-5 mr-4 space-y-2 text-base text-white list-disc font-quicksand">
-                {serviceDetails[hoveredService].features.map(
-                  (elemento, index) => (
-                    <li key={index} className="flex items-center mb-2 text-base">
-                      <span className="text-[#4dd4ef] mr-2">•</span>
-                      <span>{elemento}</span>
-                    </li>
-                  )
-                )}
-              </ul>
-              <img
-                src={detailImages[hoveredService]}
-                alt={hoveredService}
-                className="object-cover w-1/3 h-auto mb-4"
-                style={{ marginTop: "20px" }}
-              />
             </div>
 
-            <div className="absolute top-[420px] left-[10%] md:left-[130px] text-center w-[90%] md:w-[75%] lg:w-[500px]">
-              <p className="font-poppins text-xl text-[#4dd4ef] mt-4">
-                {serviceDetails[hoveredService].contactText}
-              </p>
+            <div className="flex flex-col">
+              <div className=" min-h-[109px]">
+                <h2 className="text-2xl text-white font-poppins">
+                  {serviceDetails[hoveredService].title}
+                </h2>
+                <p className="text-lg text-white font-quicksand">
+                  {serviceDetails[hoveredService].description}
+                </p>
+              </div>
+
+              <div
+                className="bg-[#1c1c1c] p-4 rounded-lg shadow-lg flex items-center space-x-4"
+                style={{
+                  width: "90%",
+                  minWidth: "100px",
+                  height: "200px",
+                }}
+              >
+                <ul className="w-2/3 space-y-2 text-base text-white list-disc font-quicksand">
+                  {serviceDetails[hoveredService].features.map(
+                    (elemento, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center mb-2 text-base"
+                      >
+                        <span className="text-[#4dd4ef] mr-2">•</span>
+                        <span>{elemento}</span>
+                      </li>
+                    )
+                  )}
+                </ul>
+                <img
+                  src={detailImages[hoveredService]}
+                  alt={hoveredService}
+                  className="object-cover w-1/3 h-auto ml-auto"
+                />
+              </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-6 text-center mb-96" style={{ marginLeft: "12cm" }}>
+          <p className="font-poppins text-xl text-[#4dd4ef]">
+            {serviceDetails[hoveredService].contactText}
+          </p>
         </div>
       </div>
     </section>
