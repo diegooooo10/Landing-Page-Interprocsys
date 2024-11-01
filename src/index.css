@@ -11,13 +11,13 @@ De esta forma se pueden usar clases para reutilizar
 */
 
 .svg {
-  @apply w-[29px] h-[29px] border rounded-full md:p-1 md:w-14 md:h-14 text-TextoEspecial border-TextoEspecial hover:opacity-80;
+  @apply w-[31px] h-[31px]  border rounded-full md:p-1 md:w-12 md:h-12 lg:w-14 lg:h-14 text-TextoEspecial border-TextoEspecial hover:opacity-80;
 }
 
 .inputFormularioContacto {
-  @apply block py-2.5 px-0 w-full text-base text-black bg-transparent border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-blue-800 focus:border border bg-white rounded-md pl-2;
+  @apply block py-2.5 px-0 w-full md:text-base text-sm text-black bg-transparent border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-blue-800 focus:border border bg-white rounded-md pl-2;
 }
 
 .labelFormularioContacto {
-  @apply text-base text-white;
+  @apply text-sm text-white md:text-base;
 }
