@@ -10,34 +10,34 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
       alt="Interprocsys logo"
       className="xl:h-[125px] xl:w-[125px] h-[65px] w-[65px]"
     />
-    <h1 className="content-center text-xl font-medium md:content-start xl:text-4xl font-poppins">INTERPROCSYS</h1>
+    <h1 className="content-center text-xl font-medium md:content-start lg:text-4xl font-poppins">INTERPROCSYS</h1>
   </div>
 
-  <div className="block lg:hidden"></div>
+  <div className="block md:hidden"></div>
 
   <nav className="flex justify-center">
-    <ul className="flex space-x-0 text-base font-medium lg:space-x-10 lg:text-xl font-poppins">
-      <li className="hidden cursor-pointer hover:opacity-50 lg:flex">
+    <ul className="flex space-x-0 text-base font-medium md:space-x-10 lg:text-xl font-poppins">
+      <li className="hidden cursor-pointer hover:opacity-50 md:flex">
         <a onClick={onEmpresaClick}>Empresa</a>
       </li>
-      <li className="hidden cursor-pointer hover:opacity-50 lg:flex">
+      <li className="hidden cursor-pointer hover:opacity-50 md:flex">
         <a onClick={onServiciosClick}>Servicios</a>
       </li>
       <li className="flex items-start cursor-pointer hover:opacity-50">
         <Link to="/entrevistas" className="">Entrevistas </Link>
-        <span className="block ml-1 lg:hidden">&gt;</span>
+        <span className="block ml-1 md:hidden">&gt;</span>
 
       </li>
     </ul>
   </nav>
   
-  <div className="hidden lg:block"></div>
+  <div className="hidden md:block"></div>
 </div>
 
 
       <div className="flex-col content-center w-full h-screen px-10 mx-auto lg:w-3/4 lg:grid lg:grid-cols-2">
         <div className="text-center">
-          <p className="mb-20 text-4xl font-semibold lg:text-6xl font-poppins lg:mb-2">
+          <p className="mb-20 text-4xl font-semibold lg:text-5xl xl:text-6xl font-poppins lg:mb-2">
             <span className="text-white">Expertos en </span>
             <span className="text-TextoEspecial">Tecnologías </span>
             <br />
@@ -45,15 +45,15 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
             <span className="text-white">y </span>
             <span className="text-TextoEspecial">Blockchain </span>
           </p>
-          <p className="mb-20 text-xl font-semibold text-white lg:text-2xl font-quicksand lg:mb-0">
+          <p className="mb-20 text-lg font-semibold text-white lg:text-xl xl:text-2xl font-quicksand lg:mb-0">
             Transforma tu negocio hoy con soluciones innovadoras y personalizadas
           </p>
         </div>
 
-        <div className="text-center">
+        <div className="items-center content-center text-center">
           <button
             onClick={handleMostrar}
-            className="p-3 text-xl font-medium text-black rounded-md bg-TextoEspecial font-poppins lg:h-[80px] lg:w-[220px] hover:opacity-50"
+            className="p-3 text-xl font-medium text-black rounded-md bg-TextoEspecial font-poppins xl:h-[80px] xl:w-[220px] lg:h-[60px] lg:w-[200px] hover:opacity-50  "
           >
             Contáctanos
           </button>

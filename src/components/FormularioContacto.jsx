@@ -50,23 +50,28 @@ export const FormularioContacto = ({ onCerrar }) => {
   };
 
   return (
-    
-    <aside className="fixed top-0 right-0 h-auto text-TextoEspecial w-[330px] md:w-[450px] bg-FondoColor rounded-md border border-TextoEspecial p-4 font-poppins z-50">
+    <aside
+      className="fixed top-0 right-0 h-auto text-TextoEspecial bg-FondoColor rounded-md border border-TextoEspecial p-4 font-poppins z-50 
+    w-3/4 sm:w-3/6 lg:w-[450px]"
+    >
+      {" "}
       <div className="flex justify-between mb-4">
         <button
-          className="px-3 w-[35px] h-[35px] text-black border bg-TextoEspecial border-TextoEspecial rounded-md hover:opacity-80 ring-pink-100"
+          className="md:px-3 px-0 w-[27px] h-[27px] md:w-[35px] md:h-[35px] text-black border bg-TextoEspecial border-TextoEspecial rounded-md hover:opacity-80 ring-pink-100"
           onClick={onCerrar}
         >
           x
         </button>
-        <p className="mx-auto text-2xl font-medium text-white">Contáctanos</p>
+        <p className="mx-auto text-xl font-medium text-white md:text-2xl">
+          Contáctanos
+        </p>
         <span className="w-10"></span>
       </div>
-
       {error && (
-        <div className="mb-4 text-sm text-center text-red-500 f">{error}</div>
+        <div className="mb-4 text-xs text-center text-red-500 md:text-sm f">
+          {error}
+        </div>
       )}
-
       <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
         <div className="relative z-0 w-full mb-5 group">
           <label htmlFor="nombre" className="labelFormularioContacto">
@@ -115,7 +120,7 @@ export const FormularioContacto = ({ onCerrar }) => {
         <div className="text-center ">
           <button
             type="submit"
-            className="mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-base w-auto px-5 py-2.5 text-center mb-3"
+            className="mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3"
           >
             Enviar
           </button>
