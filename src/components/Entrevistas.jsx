@@ -5,55 +5,67 @@ export const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [entrevistas, setEntrevistas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const mobileBreakpoint = 600; // px
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= mobileBreakpoint);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     setEntrevistas(entrevistasData.entrevistas || []);
     setIsLoading(false);
   }, []);
 
-  const itemsToShow = 3;
+  const itemsToShow = isMobile ? entrevistas.length : 3;
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) =>
-      prev + itemsToShow >= entrevistas.length ? 0 : prev + itemsToShow
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev - itemsToShow < 0
-        ? entrevistas.length - itemsToShow
-        : prev - itemsToShow
-    );
-  };
-
-  if (isLoading)
+  if (isLoading) {
     return (
       <div className="text-center text-white">Cargando entrevistas...</div>
     );
+  }
 
-  if (entrevistas.length === 0)
+  if (entrevistas.length === 0) {
     return (
       <div className="text-center text-white">
         No hay entrevistas disponibles.
       </div>
     );
+  }
+
+  // Ajuste del índice para evitar espacios en blanco al final
+  const maxIndex = entrevistas.length - itemsToShow;
+  const goToPreviousSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : maxIndex));
+  };
+
+  const goToNextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : 0));
+  };
 
   const visibleSlides = entrevistas.slice(
     currentIndex,
     currentIndex + itemsToShow
   );
 
-
   return (
     <div className="relative flex flex-col items-center justify-start min-h-screen p-4 text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
       <button
         onClick={() => (window.location.href = "/")}
-        className="absolute p-3 text-black transition-colors duration-300 rounded-md shadow-md top-6 left-6 bg-cyan-500 hover:bg-cyan-400"
+        className={`absolute ${
+          isMobile ? "p-2" : "p-3"
+        } text-black transition-colors duration-300 rounded-md shadow-md top-6 left-6 bg-cyan-500 hover:bg-cyan-400`}
         aria-label="Regresar"
       >
         <svg
-          className="w-8 h-8 transform rotate-180"
+          className={`${isMobile ? "w-6 h-6" : "w-8 h-8"} transform rotate-180`}
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -61,29 +73,31 @@ export const Carousel = () => {
         </svg>
       </button>
 
-      <h2 className="mt-6 mb-2 text-3xl font-bold text-center text-cyan-300">
+      <h2 className="mt-3 mb-2 text-3xl font-bold text-center text-cyan-300">
         Entrevistas
       </h2>
       <p className="mb-10 text-2xl text-center text-white">
         Diálogo con emprendimiento 2021
       </p>
 
-      <button
-        onClick={prevSlide}
-        className="absolute z-10 p-3 text-white transition-colors duration-300 transform -translate-y-1/2 left-4 top-1/2 hover:text-cyan-300"
-        aria-label="Anterior"
+      {/* Scroll en móviles */}
+      <div
+        className={`${
+          isMobile ? "overflow-y-scroll h-[80vh]" : "overflow-visible h-auto"
+        } flex justify-center w-full max-w-5xl p-5 md:p-20 bg-stone-700 ring-4 ring-black`}
       >
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" />
-        </svg>
-      </button>
-
-      <div className="flex justify-center w-full max-w-5xl p-24 bg-stone-700 ring-4 ring-black">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-9">
+        <div
+          className={`grid gap-5 md:gap-9 ${
+            isMobile ? "grid-cols-1" : "grid-cols-3"
+          }`}
+        >
           {visibleSlides.map((entrevista, index) => (
-            <div key={index} className="relative group">
-              {/* Tarjeta principal */}
-              <div className="relative w-full overflow-hidden transition-transform duration-300 transform rounded-lg shadow-md bg-stone-900 hover:scale-105 hover:shadow-lg">
+            <div
+              key={index}
+              className="relative group"
+              onClick={() => isMobile && setSelectedCard(index)}
+            >
+              <div className="relative w-full overflow-hidden rounded-lg shadow-md bg-stone-900 hover:shadow-lg">
                 <div className="object-contain w-full p-4 h-90">
                   <div className="overflow-hidden">
                     <img
@@ -95,48 +109,68 @@ export const Carousel = () => {
                   <div className="mt-4 text-lg font-bold text-center text-white transition-opacity duration-300 group-hover:opacity-0">
                     {entrevista.empresa}
                   </div>
+                  {entrevista.link && isMobile && selectedCard === index && (
+                    <a
+                      href={entrevista.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute px-4 py-2 font-bold text-black transform -translate-x-1/2 rounded-md shadow-md bottom-4 left-1/2 bg-cyan-500 hover:bg-cyan-400"
+                    >
+                      Ver video
+                    </a>
+                  )}
                 </div>
               </div>
 
-              {/* Información en hover fuera de la tarjeta */}
-              <div className="static absolute flex flex-col items-center justify-center w-full p-4 text-center transition-all duration-300 rounded-lg shadow-md opacity-0 h-90 top-3/4 group-hover:opacity-100 bg-stone-900">
-                <p className="font-semibold text-cyan-300">Empresa:</p>
-                <p className="text-white">{entrevista.empresa}</p>
-                <p className="font-semibold text-cyan-300">Emprendedor:</p>
-                <p className="text-white">
-                  {entrevista.emprendedores.join(", ")}
-                </p>
-                <p className="font-semibold text-cyan-300">Descripción:</p>
-                <p className="text-white">{entrevista.descripcion}</p>
-                <p className="font-semibold text-cyan-300">Fecha:</p>
-                <p className="text-white">
-                  {new Date(entrevista.fecha).toLocaleDateString("es-ES")}
-                </p>
-                {entrevista.link && (
-                  <a
-                    href={entrevista.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 text-blue-400 underline hover:text-blue-500"
-                  >
-                    Ver entrevista
-                  </a>
-                )}
-              </div>
+              {/* Información en hover para pantallas de escritorio */}
+              {!isMobile && (
+                <div className="absolute flex flex-col items-center justify-center w-full p-4 text-center transition-all duration-300 rounded-lg shadow-md opacity-0 h-90 top-3/4 group-hover:opacity-100 bg-stone-900">
+                  <p className="font-semibold text-cyan-300">Empresa:</p>
+                  <p className="text-white">{entrevista.empresa}</p>
+                  <p className="font-semibold text-cyan-300">Emprendedor:</p>
+                  <p className="text-white">
+                    {entrevista.emprendedores.join(", ")}
+                  </p>
+                  <p className="font-semibold text-cyan-300">Descripción:</p>
+                  <p className="text-white">{entrevista.descripcion}</p>
+                  <p className="font-semibold text-cyan-300">Fecha:</p>
+                  <p className="text-white">
+                    {new Date(entrevista.fecha).toLocaleDateString("es-ES")}
+                  </p>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      <button
-        onClick={nextSlide}
-        className="absolute z-10 p-3 text-white transition-colors duration-300 transform -translate-y-1/2 right-4 top-1/2 hover:text-cyan-300"
-        aria-label="Siguiente"
-      >
-        <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z" />
-        </svg>
-      </button>
+      {/* Flechas de navegación en los lados de la pantalla solo en escritorio */}
+      {!isMobile && (
+        <>
+          <button
+            onClick={goToNextSlide}
+            className="absolute p-3 text-white transform -translate-y-1/2 bg-black rounded-full shadow-md right-4 top-1/2 hover:bg-gray-800"
+            aria-label="Anterior"
+          >
+            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z" />
+            </svg>
+          </button>
+          <button
+            onClick={goToPreviousSlide}
+            className="absolute p-3 text-white transform -translate-y-1/2 bg-black rounded-full shadow-md left-4 top-1/2 hover:bg-gray-800"
+            aria-label="Siguiente"
+          >
+            <svg
+              className="w-8 h-8 transform rotate-180"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z" />
+            </svg>
+          </button>
+        </>
+      )}
     </div>
   );
 };

@@ -1,60 +1,68 @@
 import { useState } from "react";
+import { addDoc, collection } from "firebase/firestore"; 
+import { db } from "../../backend/conexion";
 
 export const FormularioContacto = ({ onCerrar }) => {
-  // Regex para validar correo electrónico
+  //regex para los  campos de entrada
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  // Regex para validar nombre completo (solo letras y espacios)
   const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/;
-
-  // Regex para validar teléfono celular (10 dígitos)
   const regexTelefono = /^[0-9]{10}$/;
 
-  //Se hace uso de useState para poder mostrar mensajes de error
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); //para mensaje de error
+  const [successMessage, setSuccessMessage] = useState(""); //para mensaje de exito 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //Se jacem varoanñes de los inputs para poder verificar que cumplan con el regex
+    //variables para guardar el dato del input
     const nombre = e.target.nombre.value.trim();
     const email = e.target.email.value.trim();
     const telefono = e.target.telefono.value.trim();
     const mensaje = e.target.mensaje.value.trim();
 
-    //condifcional para verificar si estan correctos
     if (!regexNombre.test(nombre)) {
       setError("Ingresa tu nombre completo correctamente.");
+      setSuccessMessage(""); // Limpiar mensaje de éxito
       return;
     }
 
     if (!regexEmail.test(email)) {
-      setError(
-        "Correo electrónico no válido. Asegúrate de ingresar un formato correcto."
-      );
+      setError("Correo electrónico no válido. Asegúrate de ingresar un formato correcto.");
+      setSuccessMessage(""); // Limpiar mensaje de éxito
       return;
     }
 
     if (!regexTelefono.test(telefono)) {
       setError("Teléfono no válido. Debe ser un número de 10 dígitos.");
-      return;
-    }
-    if (mensaje.trim() === "") {
-      setError("Mensaje no válido. Debe contener un mensaje.");
+      setSuccessMessage(""); // Limpiar mensaje de éxito
       return;
     }
 
-    //limpia formulario y quita los errores
-    e.target.reset();
-    setError("");
+    if (mensaje.trim() === "") {
+      setError("Mensaje no válido. Debe contener un mensaje.");
+      setSuccessMessage(""); // Limpiar mensaje de éxito
+      return;
+    }
+
+    //Si todo es correcto se envia directamente a la base de datos
+    try {
+      await addDoc(collection(db, "contacto"), {
+        nombre,
+        correo: email,
+        telefono,
+        mensaje,
+      });
+      e.target.reset();
+      setError("");
+      setSuccessMessage("Mensaje enviado con éxito."); // Mensaje de éxito
+    } catch (e) {
+      setError("Error al enviar el mensaje. Por favor, intenta nuevamente." + e);
+      setSuccessMessage(""); // Limpiar mensaje de éxito
+    }
   };
 
   return (
-    <aside
-      className="fixed top-0 right-0 h-auto text-TextoEspecial bg-FondoColor rounded-md border border-TextoEspecial p-4 font-poppins z-50 
-    w-3/4 sm:w-3/6 lg:w-[450px]"
-    >
-      {" "}
+    <aside className="fixed top-0 right-0 h-auto text-TextoEspecial bg-FondoColor rounded-md border border-TextoEspecial p-4 font-poppins z-50 w-3/4 sm:w-3/6 lg:w-[450px]">
       <div className="flex justify-between mb-4">
         <button
           className="md:px-3 px-0 w-[27px] h-[27px] md:w-[35px] md:h-[35px] text-black border bg-TextoEspecial border-TextoEspecial rounded-md hover:opacity-80 ring-pink-100"
@@ -68,8 +76,13 @@ export const FormularioContacto = ({ onCerrar }) => {
         <span className="w-10"></span>
       </div>
       {error && (
-        <div className="mb-4 text-xs text-center text-red-500 md:text-sm f">
+        <div className="mb-4 text-xs text-center text-red-500 md:text-sm">
           {error}
+        </div>
+      )}
+      {successMessage && (
+        <div className="mb-4 text-xs text-center text-green-500 md:text-sm">
+          {successMessage}
         </div>
       )}
       <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
@@ -89,7 +102,7 @@ export const FormularioContacto = ({ onCerrar }) => {
             Correo Electrónico:
           </label>
           <input
-            type="text "
+            type="text"
             name="email"
             className="inputFormularioContacto peer"
             placeholder="example@gmail.com"
@@ -116,8 +129,7 @@ export const FormularioContacto = ({ onCerrar }) => {
             placeholder="Ingresa tu mensaje."
           ></textarea>
         </div>
-
-        <div className="text-center ">
+        <div className="text-center">
           <button
             type="submit"
             className="mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3"
