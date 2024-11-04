@@ -1,12 +1,12 @@
-
 const ServiceSection = ({ servicio, details }) => {
   return (
     <div className="flex flex-col items-center mb-8 md:flex-row md:gap-4 lg:gap-6">
       <div className="flex items-center w-full mb-4 md:w-1/3 md:pl-4 lg:pl-6">
         <img
           src={details.image}
-          alt={servicio}
+          alt={`Icono de servicio: ${servicio}`}
           className="w-12 h-12 mr-4 md:w-14 md:h-14 lg:w-16 lg:h-16"
+          loading="lazy"
         />
         <span className="text-lg font-semibold text-[#4dd4ef] md:text-xl lg:text-2xl">
           {servicio}
@@ -22,10 +22,10 @@ const ServiceSection = ({ servicio, details }) => {
         </p>
 
         {/* Cuadro de características e imagen alineados horizontalmente */}
-        <div className="flex flex-row items-center p-4 md:p-6 bg-[#1c1c1c] rounded-lg shadow-lg gap-4 mt-4 lg:gap-6">
+        <div className="flex flex-row items-center p-4 md:p-6 bg-[#1c1c1c] rounded-lg shadow-lg gap-4 mt-4 lg:gap-6 hover:shadow-xl transition-shadow">
           <ul className="w-2/3 pl-4 space-y-2 text-sm text-white list-disc md:text-base lg:text-lg">
-            {details.features.map((feature, index) => (
-              <li key={index} className="leading-relaxed">
+            {details.features.map((feature) => (
+              <li key={feature} className="leading-relaxed">
                 {feature}
               </li>
             ))}
@@ -34,8 +34,9 @@ const ServiceSection = ({ servicio, details }) => {
           <div className="flex-shrink-0">
             <img
               src={details.detailImage}
-              alt={servicio}
+              alt={`Detalle de servicio: ${servicio}`}
               className="object-contain w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28"
+              loading="lazy"
             />
           </div>
         </div>

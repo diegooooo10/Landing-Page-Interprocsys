@@ -29,15 +29,18 @@ export const QuienesSomos = () => {
             Beneficios clave
           </h2>
           <ul className="flex flex-col items-center justify-center gap-6 text-base list-none md:flex-row md:gap-12">
-            <li className=" pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial">
-              Innovación y vanguardia
-            </li>
-            <li className=" pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial">
-              Experiencia en múltiples sectores
-            </li>
-            <li className=" pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial">
-              Soluciones personalizadas
-            </li>
+            {[
+              "Innovación y vanguardia",
+              "Experiencia en múltiples sectores",
+              "Soluciones personalizadas",
+            ].map((benefit, index) => (
+              <li
+                key={index}
+                className="pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial"
+              >
+                {benefit}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
