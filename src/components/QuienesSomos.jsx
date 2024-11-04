@@ -25,9 +25,9 @@ export const QuienesSomos = () => {
         <hr className="mx-auto w-11/12 bg-TextoEspecial h-[2px] my-0 md:my-10 md:w-full" />
 
         <div className="mx-auto text-center text-white">
-          <h3 className="mb-6 text-2xl font-semibold text-TextoEspecial">
+          <h2 className="mb-6 text-2xl font-semibold text-TextoEspecial">
             Beneficios clave
-          </h3>
+          </h2>
           <ul className="flex flex-col items-center justify-center gap-6 text-base list-none md:flex-row md:gap-12">
             <li className=" pl-6 list-none before:content-['◆'] before:mr-2 before:text-TextoEspecial">
               Innovación y vanguardia
