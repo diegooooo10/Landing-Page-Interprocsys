@@ -65,7 +65,7 @@ export const ServiciosComputadora = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-[1fr_auto] gap-0 ">
+        <div className="grid grid-cols-[1fr_auto] gap-0">
           <div className="w-1 bg-[#4dd4ef] h-[17rem] ml-2"></div>
 
           <div className="grid grid-cols-1 gap-0 md:grid-cols-2">
@@ -73,16 +73,16 @@ export const ServiciosComputadora = () => {
               {Object.keys(serviceDetails).map((servicio) => (
                 <div
                   key={servicio}
-                  className={`flex items-center cursor-pointer space-x-5 p-4 rounded-lg h-16 ${
+                  className={`flex items-center cursor-pointer space-x-5 p-4 rounded-lg h-16 mb-6 transition-opacity duration-300 ${
                     hoveredService === servicio
                       ? "text-[#4dd4ef] opacity-100"
                       : "text-[#4dd4ef] opacity-50"
-                  } mb-6 transition-opacity duration-300`}
+                  }`}
                   onMouseEnter={() => handleMouseEnter(servicio)}
                 >
                   <img
                     src={serviceImages[servicio]}
-                    alt={servicio}
+                    alt={`Icono de ${servicio}`}
                     className="w-12 h-12"
                   />
                   <span className="text-lg text-TextoEspecial">{servicio}</span>
@@ -91,7 +91,7 @@ export const ServiciosComputadora = () => {
             </div>
 
             <div className="flex flex-col">
-              <div className=" min-h-[109px]">
+              <div className="min-h-[109px]">
                 <h2 className="text-2xl text-white font-poppins">
                   {serviceDetails[hoveredService].title}
                 </h2>
@@ -100,30 +100,18 @@ export const ServiciosComputadora = () => {
                 </p>
               </div>
 
-              <div
-                className="bg-[#1c1c1c] p-4 rounded-lg shadow-lg flex items-center space-x-4"
-                style={{
-                  width: "90%",
-                  minWidth: "100px",
-                  height: "200px",
-                }}
-              >
+              <div className="bg-[#1c1c1c] p-4 rounded-lg shadow-lg flex items-center space-x-4 w-full h-[200px]">
                 <ul className="w-2/3 space-y-2 text-base text-white list-disc font-quicksand">
-                  {serviceDetails[hoveredService].features.map(
-                    (elemento, index) => (
-                      <li
-                        key={index}
-                        className="flex items-center mb-2 text-base"
-                      >
-                        <span className="text-[#4dd4ef] mr-2">•</span>
-                        <span>{elemento}</span>
-                      </li>
-                    )
-                  )}
+                  {serviceDetails[hoveredService].features.map((elemento, index) => (
+                    <li key={index} className="flex items-center mb-2 text-base">
+                      <span className="text-[#4dd4ef] mr-2">•</span>
+                      <span>{elemento}</span>
+                    </li>
+                  ))}
                 </ul>
                 <img
                   src={detailImages[hoveredService]}
-                  alt={hoveredService}
+                  alt={`Detalle de ${hoveredService}`}
                   className="object-cover w-1/3 h-auto ml-auto"
                 />
               </div>

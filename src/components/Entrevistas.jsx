@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import entrevistasData from "../mocks/entrevistas.json";
+import { Link } from "react-router-dom";
 
 export const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -7,16 +8,17 @@ export const Carousel = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-
   const mobileBreakpoint = 600; // px
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= mobileBreakpoint);
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    handleResize(); // Inicializa el estado en el primer render
+    window.addEventListener("resize", handleResize); // Agrega el listener de resize
+
+    return () => window.removeEventListener("resize", handleResize); // Limpia el listener
   }, []);
 
   useEffect(() => {
@@ -40,8 +42,8 @@ export const Carousel = () => {
     );
   }
 
-  // Ajuste del índice para evitar espacios en blanco al final
   const maxIndex = entrevistas.length - itemsToShow;
+
   const goToPreviousSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : maxIndex));
   };
@@ -57,8 +59,8 @@ export const Carousel = () => {
 
   return (
     <div className="relative flex flex-col items-center justify-start min-h-screen p-4 text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
-      <button
-        onClick={() => (window.location.href = "/")}
+      <Link
+        to="/"
         className={`absolute ${
           isMobile ? "p-2" : "p-3"
         } text-black transition-colors duration-300 rounded-md shadow-md top-6 left-6 bg-cyan-500 hover:bg-cyan-400`}
@@ -71,7 +73,7 @@ export const Carousel = () => {
         >
           <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z" />
         </svg>
-      </button>
+      </Link>
 
       <h2 className="mt-3 mb-2 text-3xl font-bold text-center text-cyan-300">
         Entrevistas
@@ -80,7 +82,6 @@ export const Carousel = () => {
         Diálogo con emprendimiento 2021
       </p>
 
-      {/* Scroll en móviles */}
       <div
         className={`${
           isMobile ? "overflow-y-scroll h-[80vh]" : "overflow-visible h-auto"
@@ -122,7 +123,6 @@ export const Carousel = () => {
                 </div>
               </div>
 
-              {/* Información en hover para pantallas de escritorio */}
               {!isMobile && (
                 <div className="absolute flex flex-col items-center justify-center w-full p-4 text-center transition-all duration-300 rounded-lg shadow-md opacity-0 h-90 top-3/4 group-hover:opacity-100 bg-stone-900">
                   <p className="font-semibold text-cyan-300">Empresa:</p>
@@ -144,7 +144,6 @@ export const Carousel = () => {
         </div>
       </div>
 
-      {/* Flechas de navegación en los lados de la pantalla solo en escritorio */}
       {!isMobile && (
         <>
           <button

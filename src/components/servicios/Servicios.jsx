@@ -1,28 +1,21 @@
 // Servicios.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ServiciosComputadora } from "./Servicios_computadora";
 import { ServiciosCelular } from "./Servicios_celular";
 
 export const Servicios = () => {
-  const [windowWidth, setWindowWidth] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const handleResize = useCallback(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
-
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [handleResize]);
 
-  if (windowWidth === null) return null;
-
-  return (
-    <>{windowWidth < 769 ? <ServiciosCelular /> : <ServiciosComputadora />}</>
-  );
+  return windowWidth < 769 ? <ServiciosCelular /> : <ServiciosComputadora />;
 };

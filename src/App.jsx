@@ -9,8 +9,6 @@ import { Carousel } from "./components/Entrevistas";
 
 export const App = () => {
   const [mostrar, setMostrar] = useState(false);
-
-  // Referencias para saber cual es la sección a desplazar
   const serviciosRef = useRef(null);
   const quienesSomosRef = useRef(null);
 
@@ -22,10 +20,11 @@ export const App = () => {
   const handleCerrarFormulario = () => {
     setMostrar(false);
   };
+
   const scrollToSection = (ref) => {
     const targetPosition = ref.current.offsetTop;
-    const step = 20; // Ajusta este valor para controlar la suavidad
-    const interval = 5; // Ajusta este valor para controlar la duración
+    const step = 20; // Controla la suavidad
+    const interval = 5; // Controla la duración
 
     const scrollInterval = setInterval(() => {
       const currentPosition = window.pageYOffset;
@@ -33,7 +32,7 @@ export const App = () => {
         window.scrollBy(0, step);
       } else {
         clearInterval(scrollInterval);
-        window.scrollTo(0, targetPosition); // Asegúrate de llegar exactamente a la posición
+        window.scrollTo(0, targetPosition); // Asegúrate de llegar a la posición exacta
       }
     }, interval);
   };
@@ -41,7 +40,7 @@ export const App = () => {
   return (
     <>
       <Routes>
-        {/* Primera ruta, que es la sección de inicio */}
+        {/* Ruta principal */}
         <Route
           path="/"
           element={
@@ -75,10 +74,10 @@ export const App = () => {
             </>
           }
         />
-        {/* Para la sección de entrevistas */}
+        {/* Ruta para la sección de entrevistas */}
         <Route path="/entrevistas" element={<Carousel />} />
         
-        {/* Ruta para redirigir a páginas no encontradas */}
+        {/* Ruta para páginas no encontradas */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
