@@ -1,22 +1,27 @@
-import { useState } from "react";
-
-import { addDoc, collection } from "firebase/firestore"; 
-
+import { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../backend/conexion";
 
 export const FormularioContacto = ({ onCerrar }) => {
-  //regex para los  campos de entrada
+  // regex para los campos de entrada
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/;
   const regexTelefono = /^[0-9]{10}$/;
 
-  const [error, setError] = useState(""); //para mensaje de error
-  const [successMessage, setSuccessMessage] = useState(""); //para mensaje de exito 
+  const [error, setError] = useState(""); // para mensaje de error
+  const [setUsuarioValido] = useState(false); //para compronar usuario realiza captcha
+  const [successMessage, setSuccessMessage] = useState(""); // para mensaje de éxito
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false); // nuevo estado para captcha
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isCaptchaValid) {
+      setError("Completa el captcha");
+      return;
+    }
 
-    //variables para guardar el dato del input
+    // variables para guardar el dato del input
     const nombre = e.target.nombre.value.trim();
     const email = e.target.email.value.trim();
     const telefono = e.target.telefono.value.trim();
@@ -29,7 +34,9 @@ export const FormularioContacto = ({ onCerrar }) => {
     }
 
     if (!regexEmail.test(email)) {
-      setError("Correo electrónico no válido. Asegúrate de ingresar un formato correcto.");
+      setError(
+        "Correo electrónico no válido. Asegúrate de ingresar un formato correcto."
+      );
       setSuccessMessage(""); // Limpiar mensaje de éxito
       return;
     }
@@ -46,7 +53,7 @@ export const FormularioContacto = ({ onCerrar }) => {
       return;
     }
 
-    //Si todo es correcto se envia directamente a la base de datos
+    // Si todo es correcto se envía directamente a la base de datos
     try {
       await addDoc(collection(db, "contacto"), {
         nombre,
@@ -57,9 +64,23 @@ export const FormularioContacto = ({ onCerrar }) => {
       e.target.reset();
       setError("");
       setSuccessMessage("Mensaje enviado con éxito."); // Mensaje de éxito
+      setIsCaptchaValid(false); // Reseteamos el captcha
     } catch (e) {
-      setError("Error al enviar el mensaje. Por favor, intenta nuevamente." + e);
+      setError(
+        "Error al enviar el mensaje. Por favor, intenta nuevamente." + e
+      );
       setSuccessMessage(""); // Limpiar mensaje de éxito
+    }
+  };
+
+  const captcha = useRef(null);
+
+  const onChange = (value) => {
+    if (value) {
+      setIsCaptchaValid(true); // Activar el botón
+      setUsuarioValido(true);
+    } else {
+      setIsCaptchaValid(false); // Desactivar el botón si no hay valor
     }
   };
 
@@ -127,14 +148,24 @@ export const FormularioContacto = ({ onCerrar }) => {
           </label>
           <textarea
             name="mensaje"
-            className="h-32 resize-none inputFormularioContacto peer"
+            className="resize-none h-14 md:h-32 inputFormularioContacto peer"
             placeholder="Ingresa tu mensaje."
           ></textarea>
         </div>
         <div className="text-center">
+          <div className="">
+            <ReCAPTCHA
+              ref={captcha}
+              sitekey="6LcuuXEqAAAAAJrUV4IrZnJ5qicaF8jD_48bcVOB"
+              onChange={onChange}
+            />
+          </div>
           <button
             type="submit"
-            className="mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3"
+            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3 ${
+              isCaptchaValid ? "" : "opacity-50 cursor-not-allowed"
+            }`}
+            disabled={!isCaptchaValid}
           >
             Enviar
           </button>

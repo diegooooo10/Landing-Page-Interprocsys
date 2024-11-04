@@ -85,7 +85,7 @@ export const ServiciosComputadora = () => {
                     alt={servicio}
                     className="w-12 h-12"
                   />
-                  <span className="text-lg">{servicio}</span>
+                  <span className="text-lg text-TextoEspecial">{servicio}</span>
                 </div>
               ))}
             </div>

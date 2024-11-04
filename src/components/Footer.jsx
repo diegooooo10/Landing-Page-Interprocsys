@@ -12,6 +12,7 @@ export const Footer = () => {
         {/* Sección de íconos */}
         <section className="flex justify-center gap-3 sm:justify-start">
           <a
+            aria-label="Contactanos por Facebook"
             href="https://www.facebook.com/Interprocsysmx/"
             target="_blank"
             rel="noreferrer"
@@ -19,6 +20,7 @@ export const Footer = () => {
             <IconFacebook />
           </a>
           <a
+            aria-label="Contactanos por Instagram"
             href="https://www.instagram.com/interprocsys_sa_de_cv/"
             target="_blank"
             rel="noreferrer"
@@ -26,13 +28,20 @@ export const Footer = () => {
             <IconInstagram />
           </a>
           <a
+            aria-label="Contactanos por LinkedIn"
             href="https://www.linkedin.com/company/interprocsys-s-a-de-c-v/"
             target="_blank"
             rel="noreferrer"
           >
             <IconLinkedin />
           </a>
-          <a href="https://x.com/interprocsys" target="_blank" rel="noreferrer">
+
+          <a
+            aria-label="Contactanos por X"
+            href="https://x.com/interprocsys"
+            target="_blank"
+            rel="noreferrer"
+          >
             <IconX />
           </a>
         </section>
