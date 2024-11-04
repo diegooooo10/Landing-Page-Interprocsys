@@ -37,7 +37,7 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
 
       <div className="flex flex-col items-center justify-center w-full h-screen px-10 mx-auto lg:w-3/4 lg:grid lg:grid-cols-2">
         <div className="text-center">
-          <p className="mb-10 text-3xl font-semibold lg:text-5xl xl:text-6xl font-poppins">
+          <p className="mb-10 text-3xl font-semibold lg:text-4xl xl:text-5xl font-poppins">
             <span className="text-white">Expertos en </span>
             <span className="text-TextoEspecial">Tecnologías </span>
             <br />
