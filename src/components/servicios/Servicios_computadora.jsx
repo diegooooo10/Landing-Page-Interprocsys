@@ -55,7 +55,7 @@ export const ServiciosComputadora = () => {
   return (
     <section className="bg-[#303030] py-12 min-h-screen content-center ">
       <div className="container px-4 mx-auto">
-        <div className="mt-5 mb-24 text-center">
+        <div className="mt-5 text-center mb-96">
           <h1 className="font-poppins text-4xl font-semibold text-[#4dd4ef]">
             Servicios
           </h1>
@@ -119,7 +119,7 @@ export const ServiciosComputadora = () => {
           </div>
         </div>
 
-        <div className="mt-6 mb-24 text-center">
+        <div className="mt-6 text-center mb-96" style={{ marginLeft: "12cm" }}>
           <p className="font-poppins text-xl text-[#4dd4ef]">
             {serviceDetails[hoveredService].contactText}
           </p>
