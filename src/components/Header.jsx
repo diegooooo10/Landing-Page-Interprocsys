@@ -40,7 +40,7 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
 
       <div className="flex-col content-center w-full h-screen px-10 mx-auto lg:w-3/4 lg:grid lg:grid-cols-2">
         <div className="text-center">
-          <p className="mb-20 text-4xl font-semibold lg:text-5xl xl:text-6xl font-poppins lg:mb-2">
+          <p className="mb-10 text-3xl font-semibold lg:text-5xl xl:text-6xl font-poppins">
             <span className="text-white">Expertos en </span>
             <span className="text-TextoEspecial">Tecnologías </span>
             <br />
@@ -48,7 +48,8 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
             <span className="text-white">y </span>
             <span className="text-TextoEspecial">Blockchain </span>
           </p>
-          <p className="mb-20 text-lg font-semibold text-white lg:text-xl xl:text-2xl font-quicksand lg:mb-0">
+
+          <p className="mb-10 text-lg font-semibold text-white lg:text-xl xl:text-2xl font-quicksand lg:mb-0">
             Transforma tu negocio hoy con soluciones innovadoras y
             personalizadas
           </p>
