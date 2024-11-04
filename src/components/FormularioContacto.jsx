@@ -10,9 +10,9 @@ export const FormularioContacto = ({ onCerrar }) => {
   const regexTelefono = /^[0-9]{10}$/;
 
   const [error, setError] = useState(""); // para mensaje de error
-  const [setUsuarioValido] = useState(false); //para compronar usuario realiza captcha
   const [successMessage, setSuccessMessage] = useState(""); // para mensaje de éxito
   const [isCaptchaValid, setIsCaptchaValid] = useState(false); // nuevo estado para captcha
+  const captcha = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +65,7 @@ export const FormularioContacto = ({ onCerrar }) => {
       setError("");
       setSuccessMessage("Mensaje enviado con éxito."); // Mensaje de éxito
       setIsCaptchaValid(false); // Reseteamos el captcha
+      captcha.current.reset(); // Reinicia el reCAPTCHA
     } catch (e) {
       setError(
         "Error al enviar el mensaje. Por favor, intenta nuevamente." + e
@@ -73,15 +74,8 @@ export const FormularioContacto = ({ onCerrar }) => {
     }
   };
 
-  const captcha = useRef(null);
-
   const onChange = (value) => {
-    if (value) {
-      setIsCaptchaValid(true); // Activar el botón
-      setUsuarioValido(true);
-    } else {
-      setIsCaptchaValid(false); // Desactivar el botón si no hay valor
-    }
+    setIsCaptchaValid(!!value);
   };
 
   return (
