@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../backend/conexion";
+import xss from "xss";
 
 export const FormularioContacto = ({ onCerrar }) => {
   const [nombre, setNombre] = useState("");
@@ -20,22 +21,43 @@ export const FormularioContacto = ({ onCerrar }) => {
   const regexTelefono = /^[0-9]{10}$/;
 
   const handleFieldChange = () => {
-    // Validar los campos sin el captcha
     const fieldsAreValid =
       regexNombre.test(nombre) &&
       regexEmail.test(email) &&
       regexTelefono.test(telefono) &&
       mensaje.trim() !== "";
-    
-    setShowCaptcha(fieldsAreValid); // Mostrar captcha si los campos son válidos
+
+    setShowCaptcha(fieldsAreValid);
     setError(""); // Limpiar errores previos
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError(""); // Limpiar errores al intentar enviar
     setSuccessMessage("");
     setIsLoading(true);
+
+    // Validación de campos
+    if (!regexNombre.test(nombre)) {
+      setError("El nombre completo es inválido o está incompleto.");
+      setIsLoading(false);
+      return;
+    }
+    if (!regexEmail.test(email)) {
+      setError("El correo electrónico es inválido.");
+      setIsLoading(false);
+      return;
+    }
+    if (!regexTelefono.test(telefono)) {
+      setError("El número de teléfono debe tener 10 dígitos.");
+      setIsLoading(false);
+      return;
+    }
+    if (mensaje.trim() === "") {
+      setError("El mensaje no puede estar vacío.");
+      setIsLoading(false);
+      return;
+    }
 
     // Verificar que el captcha sea válido antes de enviar
     if (!isCaptchaValid) {
@@ -45,11 +67,17 @@ export const FormularioContacto = ({ onCerrar }) => {
     }
 
     try {
+      // Sanitizar datos para prevenir XSS
+      const sanitizedNombre = xss(nombre);
+      const sanitizedEmail = xss(email);
+      const sanitizedTelefono = xss(telefono);
+      const sanitizedMensaje = xss(mensaje);
+
       await addDoc(collection(db, "contacto"), {
-        nombre,
-        correo: email,
-        telefono,
-        mensaje,
+        nombre: sanitizedNombre,
+        correo: sanitizedEmail,
+        telefono: sanitizedTelefono,
+        mensaje: sanitizedMensaje,
       });
       setSuccessMessage("Mensaje enviado con éxito.");
       setIsCaptchaValid(false);
@@ -150,10 +178,8 @@ export const FormularioContacto = ({ onCerrar }) => {
           )}
           <button
             type="submit"
-            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3 ${
-              isCaptchaValid ? "" : "opacity-50 cursor-not-allowed"
-            } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-            disabled={!isCaptchaValid || isLoading}
+            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            disabled={isLoading}
           >
             {isLoading ? "Enviando..." : "Enviar"}
           </button>
