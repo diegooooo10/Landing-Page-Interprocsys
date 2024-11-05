@@ -178,7 +178,7 @@ export const FormularioContacto = ({ onCerrar }) => {
           )}
           <button
             type="submit"
-            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base mx-auto md:w-auto w-1/2 px-5 py-2.5 text-center mb-3 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             disabled={isLoading}
           >
             {isLoading ? "Enviando..." : "Enviar"}
