@@ -16,12 +16,21 @@ Repo de trabajo CETIS 1
 
    ```bash
    npm install -D tailwindcss postcss autoprefixer
-5. Posterior a este se ejecutrara el siguiente para instalar React-Router-DOM
+5. Posterior a este se ejecutrara el siguiente para instalar lo necesario para poder hacer funcionar la pagina
 
    ```bash
    npm install react-router-dom
+   npm install firebase-admin --save
+   npm install dotenv
+   npm install firebase
+   npm install --save react-google-recaptcha
+   npm install express-rate-limit
+   npm install xss
+   npm install express-validator
+
 7. Ahora que está todo instalado, para poder ver en local los cambios que se hagan, ejecutar:
     ```bash
     npm run dev
 con esto podras entrar a: `http://localhost:5173/`
 
+8. Se necesita un archivo .env con las credenciales de la base de datos Firebase para que la puedas ocupar
