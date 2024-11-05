@@ -9,7 +9,7 @@ const app = express();
 // Configuración del limitador de solicitudes
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // Limita cada IP a 2 solicitudes por ventana de 15 minutos
+  max: 100,
   message:
     "Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.",
 });
