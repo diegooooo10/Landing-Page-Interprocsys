@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../backend/conexion";
 import xss from "xss";
+import { verificarLimiteSolicitudes } from "../../backend/limitacionSolicitudes"; // Importa la función
 
 export const FormularioContacto = ({ onCerrar }) => {
   const [nombre, setNombre] = useState("");
@@ -14,6 +15,7 @@ export const FormularioContacto = ({ onCerrar }) => {
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [isLimitReached, setIsLimitReached] = useState(false); // Estado para saber si el límite se alcanzó
   const captcha = useRef(null);
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -66,6 +68,14 @@ export const FormularioContacto = ({ onCerrar }) => {
       return;
     }
 
+    // Verificar si se ha alcanzado el límite de solicitudes
+    const limiteAlcanzado = await verificarLimiteSolicitudes(email);
+    if (limiteAlcanzado) {
+      setIsLimitReached(true); // Actualizar el estado de límite alcanzado
+      setIsLoading(false);
+      return; // Aquí no mostramos el mensaje de error
+    }
+
     try {
       // Sanitizar datos para prevenir XSS
       const sanitizedNombre = xss(nombre);
@@ -88,7 +98,10 @@ export const FormularioContacto = ({ onCerrar }) => {
       setMensaje("");
       setShowCaptcha(false); // Ocultar captcha después de enviar
     } catch (e) {
-      setError("Error al enviar el mensaje. Por favor, intenta nuevamente. " + e.message);
+      setError(
+        "Error al enviar el mensaje. Por favor, intenta nuevamente. " +
+          e.message
+      );
     } finally {
       setIsLoading(false);
     }
@@ -97,6 +110,17 @@ export const FormularioContacto = ({ onCerrar }) => {
   const onChange = (value) => {
     setIsCaptchaValid(!!value);
   };
+
+  useEffect(() => {
+    // Verificar el límite cuando el email cambie
+    if (email) {
+      console.log(`Verificando límite para el correo ${email}`);
+      verificarLimiteSolicitudes(email).then((limiteAlcanzado) => {
+        console.log(`Estado de límite alcanzado: ${limiteAlcanzado}`);
+        setIsLimitReached(limiteAlcanzado);
+      });
+    }
+  }, [email]);
 
   return (
     <aside className="fixed top-0 right-0 h-auto text-TextoEspecial bg-FondoColor rounded-md border border-TextoEspecial p-4 font-poppins z-50 w-3/4 sm:w-3/6 lg:w-[450px]">
@@ -107,14 +131,26 @@ export const FormularioContacto = ({ onCerrar }) => {
         >
           x
         </button>
-        <p className="mx-auto text-xl font-medium text-white md:text-2xl">Contáctanos</p>
+        <p className="mx-auto text-xl font-medium text-white md:text-2xl">
+          Contáctanos
+        </p>
         <span className="w-10"></span>
       </div>
-      {error && <div className="mb-4 text-xs text-center text-red-500 md:text-sm">{error}</div>}
-      {successMessage && <div className="mb-4 text-xs text-center text-green-500 md:text-sm">{successMessage}</div>}
+      {error && (
+        <div className="mb-4 text-xs text-center text-red-500 md:text-sm">
+          {error}
+        </div>
+      )}
+      {successMessage && (
+        <div className="mb-4 text-xs text-center text-green-500 md:text-sm">
+          {successMessage}
+        </div>
+      )}
       <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
         <div className="relative z-0 w-full mb-5 group">
-          <label htmlFor="nombre" className="labelFormularioContacto">Nombre Completo:</label>
+          <label htmlFor="nombre" className="labelFormularioContacto">
+            Nombre Completo:
+          </label>
           <input
             type="text"
             name="nombre"
@@ -129,7 +165,9 @@ export const FormularioContacto = ({ onCerrar }) => {
           />
         </div>
         <div className="relative z-0 w-full mb-5 group">
-          <label htmlFor="email" className="labelFormularioContacto">Correo Electrónico:</label>
+          <label htmlFor="email" className="labelFormularioContacto">
+            Correo Electrónico:
+          </label>
           <input
             type="email"
             name="email"
@@ -145,7 +183,9 @@ export const FormularioContacto = ({ onCerrar }) => {
           />
         </div>
         <div className="relative z-0 w-full mb-5 group">
-          <label htmlFor="telefono" className="labelFormularioContacto">Teléfono:</label>
+          <label htmlFor="telefono" className="labelFormularioContacto">
+            Teléfono:
+          </label>
           <input
             type="tel"
             name="telefono"
@@ -160,7 +200,9 @@ export const FormularioContacto = ({ onCerrar }) => {
           />
         </div>
         <div className="relative z-0 w-full mb-5 group">
-          <label htmlFor="mensaje" className="labelFormularioContacto">Mensaje:</label>
+          <label htmlFor="mensaje" className="labelFormularioContacto">
+            Mensaje:
+          </label>
           <textarea
             name="mensaje"
             className="resize-none h-14 md:h-32 inputFormularioContacto peer"
@@ -183,10 +225,16 @@ export const FormularioContacto = ({ onCerrar }) => {
           )}
           <button
             type="submit"
-            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base mx-auto md:w-auto w-1/2 px-5 py-2.5 text-center mb-3 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-            disabled={isLoading}
+            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3 ${
+              isLoading || isLimitReached ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={isLoading || isLimitReached}
           >
-            {isLoading ? "Enviando..." : "Enviar"}
+            {isLoading
+              ? "Enviando..."
+              : isLimitReached
+              ? "Límite Alcanzado"
+              : "Enviar"}
           </button>
         </div>
       </form>
