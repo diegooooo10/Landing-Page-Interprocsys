@@ -33,6 +33,7 @@ const ServiceSection = ({ servicio, details }) => {
 
           <div className="flex-shrink-0">
             <img
+            
               src={details.detailImage}
               alt={`Detalle de servicio: ${servicio}`}
               className="object-contain w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28"

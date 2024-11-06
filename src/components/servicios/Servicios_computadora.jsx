@@ -102,17 +102,23 @@ export const ServiciosComputadora = () => {
 
               <div className="bg-[#1c1c1c] p-4 rounded-lg shadow-lg flex items-center space-x-4 w-full h-[200px]">
                 <ul className="w-2/3 space-y-2 text-base text-white list-disc font-quicksand">
-                  {serviceDetails[hoveredService].features.map((elemento, index) => (
-                    <li key={index} className="flex items-center mb-2 text-base">
-                      <span className="text-[#4dd4ef] mr-2">•</span>
-                      <span>{elemento}</span>
-                    </li>
-                  ))}
+                  {serviceDetails[hoveredService].features.map(
+                    (elemento, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center mb-2 text-base"
+                      >
+                        <span className="text-[#4dd4ef] mr-2">•</span>
+                        <span>{elemento}</span>
+                      </li>
+                    )
+                  )}
                 </ul>
                 <img
                   src={detailImages[hoveredService]}
                   alt={`Detalle de ${hoveredService}`}
-                  className="object-cover w-1/3 h-auto ml-auto"
+                  loading="lazy" // Carga diferida
+                  className="object-cover w-1/3 h-auto ml-auto" // Tamaño máximo para limitar la carga
                 />
               </div>
             </div>
