@@ -1,31 +1,29 @@
-import express from "express";
-import rateLimit from "express-rate-limit";
-import dotenv from "dotenv";
+import { db } from "./conexion"; // Importa la conexión a Firebase Firestore
+import { query, collection, where, getDocs } from "firebase/firestore";
 
-dotenv.config();
+// Función para verificar el límite de solicitudes
+export const verificarLimiteSolicitudes = async (email) => {
+  try {
+    // Realiza una consulta para contar las solicitudes previas de ese email
+    const q = query(collection(db, "contacto"), where("correo", "==", email));
+    const snapshot = await getDocs(q);
 
-const app = express();
+    console.log(`Consultando correo ${email}...`);
+    console.log(
+      `Solicitudes encontradas para el correo ${email}: ${snapshot.size}`
+    );
 
-// Configuración del limitador de solicitudes
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100,
-  message:
-    "Demasiadas solicitudes desde esta IP, por favor intenta de nuevo después de un tiempo.",
-});
+    const limite = 1; // Número máximo de solicitudes por correo
 
-// Aplicar el limitador a todas las rutas
-app.use(limiter);
+    if (snapshot.size >= limite) {
+      console.log("Límite alcanzado.");
+      return true; // El límite se ha alcanzado
+    }
 
-const apiKey = process.env.VITE_FIREBASE_API_KEY;
-
-// Definir una ruta de ejemplo
-app.get("/", (req, res) => {
-  res.send(`¡Bienvenido a la API! API Key: ${apiKey}`);
-});
-
-// Iniciar el servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+    console.log("Límite no alcanzado.");
+    return false; // El límite no se ha alcanzado
+  } catch (error) {
+    console.error("Error al verificar el límite de solicitudes:", error);
+    return false; // Si ocurre un error, no bloquear al usuario
+  }
+};
