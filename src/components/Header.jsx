@@ -10,7 +10,7 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
             alt="Interprocsys logo"
             className="h-[65px] w-[65px] xl:h-[125px] xl:w-[125px] object-cover"
           />
-          <h1 className="text-xl font-medium md:text-2xl lg:text-3xl font-poppins">
+          <h1 className="ml-2 text-xl font-medium md:text-2xl lg:text-3xl font-poppins">
             INTERPROCSYS
           </h1>
         </div>

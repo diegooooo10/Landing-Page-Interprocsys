@@ -15,10 +15,10 @@ export const Carousel = () => {
       setIsMobile(window.innerWidth <= mobileBreakpoint);
     };
 
-    handleResize(); // Inicializa el estado en el primer render
-    window.addEventListener("resize", handleResize); // Agrega el listener de resize
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize); // Limpia el listener
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -56,17 +56,16 @@ export const Carousel = () => {
     currentIndex,
     currentIndex + itemsToShow
   );
-
   return (
     <div className="relative flex flex-col items-center justify-start min-h-screen p-4 text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
       <Link
         to="/"
         className={`absolute ${
           isMobile ? "p-2" : "p-3"
-        } text-black transition-colors duration-300 rounded-md shadow-md top-6 left-6 bg-cyan-500 hover:bg-cyan-400`}
+        } text-black transition-colors duration-300 rounded-md shadow-md top-6 left-6 bg-TextoEspecial hover:opacity-50`}
         aria-label="Regresar"
       >
-  <svg
+        <svg
           className={`${isMobile ? "w-6 h-6" : "w-8 h-8"} transform rotate-180`}
           fill="currentColor"
           viewBox="0 0 24 24"
@@ -75,7 +74,7 @@ export const Carousel = () => {
         </svg>
       </Link>
 
-      <h2 className="mt-3 mb-2 text-3xl font-bold text-center text-cyan-300">
+      <h2 className="mt-3 mb-2 text-3xl font-bold text-center text-TextoEspecial">
         Entrevistas
       </h2>
       <p className="text-2xl text-center text-white mb-14">
@@ -85,7 +84,7 @@ export const Carousel = () => {
       {/* Scroll en móviles */}
       <div
         className={`${
-          isMobile ? "overflow-y-scroll h-[90vh]" : "overflow-visible h-auto"
+          isMobile ? "overflow-y-scroll h-[90vh]" : "overflow-visible rounded-md sm:h-[600px]  md:h-[650px] lg:h-[600px]"
         } flex justify-center w-full max-w-6xl p-4 md:p-24 bg-stone-700 ring-4 ring-black`}
         style={{ marginTop: isMobile ? "0" : "-20px" }}
       >
@@ -106,6 +105,7 @@ export const Carousel = () => {
                     <img
                       src={entrevista.imagen?.url || "/img/default.webp"}
                       alt={`Imagen de la entrevista ${index}`}
+                      loading="lazy" // Carga diferida para mejorar rendimiento
                       className="object-cover w-full h-full transition-transform duration-300 rounded-t-lg group-hover:scale-75 -translate-y-7"
                     />
                   </div>
@@ -125,7 +125,7 @@ export const Carousel = () => {
                     href={entrevista.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute w-24 px-3 py-3 font-bold text-center text-black transform -translate-x-1/2 -translate-y-1/2 rounded-md shadow-md bottom-4 left-1/2 bg-cyan-500 md:w-32 lg:w-40 sm:py-1 sm:px-3 sm:text-sm md:py-3 md:px-6 md:text-lg hover:bg-cyan-400 hover:text-white"
+                    className="absolute w-24 px-3 py-3 font-bold text-center text-black transform -translate-x-1/2 -translate-y-1/2 rounded-md shadow-md bottom-4 left-1/2 bg-TextoEspecial md:w-32 lg:w-40 sm:py-1 sm:px-3 sm:text-sm md:py-3 md:px-6 md:text-lg hover:opacity-50"
                   >
                     Ver video
                   </a>
@@ -134,19 +134,28 @@ export const Carousel = () => {
 
               {/* Información en hover para pantallas de escritorio */}
               {!isMobile && (
-                <div className="static absolute flex flex-col items-center justify-center w-full p-4 text-center transition-all duration-300 rounded-lg shadow-md opacity-0 h-90 top-44 group-hover:opacity-100 bg-stone-900">
-                  <p className="font-semibold text-cyan-300">Empresa:</p>
+                <div className="absolute flex flex-col justify-center w-full p-4 transition-all duration-300 rounded-lg shadow-md opacity-0 h-90 top-44 group-hover:opacity-100 bg-stone-900">
+                  <p className="font-semibold text-TextoEspecial">Empresa:</p>
                   <p className="text-white">{entrevista.empresa}</p>
-                  <p className="font-semibold text-cyan-300">Emprendedor:</p>
+                  <p className="font-semibold text-TextoEspecial">Emprendedor:</p>
                   <p className="text-white">
                     {entrevista.emprendedores.join(", ")}
                   </p>
-                  <p className="font-semibold text-cyan-300">Descripción:</p>
+                  <p className="font-semibold text-TextoEspecial">Descripción:</p>
                   <p className="text-white">{entrevista.descripcion}</p>
-                  <p className="font-semibold text-cyan-300">Fecha:</p>
+                  <p className="font-semibold text-TextoEspecial">Fecha:</p>
                   <p className="text-white">
                     {new Date(entrevista.fecha).toLocaleDateString("es-ES")}
                   </p>
+
+                  <a
+                    href={entrevista.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-24 px-3 py-3 mx-auto font-bold text-center text-black rounded-md shadow-md bottom-4 left-1/2 bg-TextoEspecial md:w-32 lg:w-1/2 sm:py-1 sm:px-3 sm:text-sm md:py-3 md:px-6 md:text-lg hover:opacity-50"
+                  >
+                    Ver video
+                  </a>
                 </div>
               )}
             </div>

@@ -118,6 +118,7 @@ export const FormularioContacto = ({ onCerrar }) => {
           <input
             type="text"
             name="nombre"
+            id="nombre"
             className="inputFormularioContacto peer"
             placeholder="Nombre(s). Apellidos."
             value={nombre}
@@ -132,6 +133,7 @@ export const FormularioContacto = ({ onCerrar }) => {
           <input
             type="email"
             name="email"
+            id="email"
             className="inputFormularioContacto peer"
             placeholder="ejemplo@gmail.com"
             value={email}
@@ -139,6 +141,7 @@ export const FormularioContacto = ({ onCerrar }) => {
               setEmail(e.target.value);
               handleFieldChange();
             }}
+            autoComplete="email"
           />
         </div>
         <div className="relative z-0 w-full mb-5 group">
@@ -146,6 +149,7 @@ export const FormularioContacto = ({ onCerrar }) => {
           <input
             type="tel"
             name="telefono"
+            id="telefono"
             className="inputFormularioContacto peer"
             placeholder="1234567890"
             value={telefono}
@@ -161,6 +165,7 @@ export const FormularioContacto = ({ onCerrar }) => {
             name="mensaje"
             className="resize-none h-14 md:h-32 inputFormularioContacto peer"
             placeholder="Ingresa tu mensaje."
+            id="mensaje"
             value={mensaje}
             onChange={(e) => {
               setMensaje(e.target.value);
