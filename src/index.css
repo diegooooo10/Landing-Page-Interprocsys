@@ -16,7 +16,9 @@ De esta forma se pueden usar clases para reutilizar
 
 .inputFormularioContacto {
   @apply block py-2.5 px-0 w-full md:text-base text-sm text-black bg-transparent border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-blue-800 focus:border border bg-white rounded-md pl-2;
+  padding-left: 10px; 
 }
+
 
 .labelFormularioContacto {
   @apply text-sm text-white md:text-base;

@@ -17,6 +17,7 @@ export const FormularioContacto = ({ onCerrar }) => {
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [isLimitReached, setIsLimitReached] = useState(false); // Estado para saber si el límite se alcanzó
   const captcha = useRef(null);
+  const [isCountryCodesLoaded, setIsCountryCodesLoaded] = useState(false);
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/;
@@ -25,25 +26,27 @@ export const FormularioContacto = ({ onCerrar }) => {
   const [countryCodes, setCountryCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState(""); // Código de país seleccionado
 
-  // Fetch country codes from REST Countries API
-  useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all")
-      .then((response) => response.json())
-      .then((data) => {
-        const codes = data
-          .map((country) => ({
-            name: country.name.common,
-            code:
-              country.idd.root +
-              (country.idd.suffixes ? country.idd.suffixes[0] : ""),
-            flag: country.flags?.png || country.flags?.svg || null, // Ajusta aquí
-          }))
-          .filter((country) => country.code && country.flag); // Filtra países sin código o bandera
-
-        setCountryCodes(codes);
-      })
-      .catch((error) => console.error("Error fetching country codes:", error));
-  }, []);
+  const loadCountryCodes = () => {
+    if (!isCountryCodesLoaded) {
+      setIsCountryCodesLoaded(true);
+      fetch("https://restcountries.com/v3.1/all")
+        .then((response) => response.json())
+        .then((data) => {
+          const codes = data
+            .map((country) => ({
+              name: country.name.common,
+              code:
+                country.idd.root +
+                (country.idd.suffixes ? country.idd.suffixes[0] : ""),
+            }))
+            .filter((country) => country.code); // Filtrar países sin código
+          setCountryCodes(codes);
+        })
+        .catch((error) =>
+          console.error("Error fetching country codes:", error)
+        );
+    }
+  };
 
   const handleCountryChange = (event) => {
     setSelectedCode(event.target.value); // Guardar el código del país
@@ -225,6 +228,7 @@ export const FormularioContacto = ({ onCerrar }) => {
               id="countryCode"
               className="w-[65px] sm:w-[65px] md:w-[80px] lg:w-[100px] text-sm text-black rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-TextoEspecial p-2"
               value={selectedCode}
+              onClick={loadCountryCodes} // Cambiado a onClick
               onChange={handleCountryChange}
             >
               <option value="" className="text-sm text-gray-500">
@@ -248,7 +252,7 @@ export const FormularioContacto = ({ onCerrar }) => {
               id="telefono"
               className="w-3/4 ml-2 inputFormularioContacto peer"
               placeholder="1234567890"
-              value={`${selectedCode} ${telefono}`}
+              value={telefono} // Solo el número de teléfono
               onChange={handlePhoneChange}
             />
           </div>
