@@ -209,6 +209,7 @@ export const FormularioContacto = ({ onCerrar }) => {
             placeholder="Ingresa tu mensaje."
             id="mensaje"
             value={mensaje}
+            maxLength={255}
             onChange={(e) => {
               setMensaje(e.target.value);
               handleFieldChange();
