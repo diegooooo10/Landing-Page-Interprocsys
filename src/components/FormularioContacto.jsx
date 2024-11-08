@@ -219,9 +219,10 @@ export const FormularioContacto = ({ onCerrar }) => {
           />
         </div>
         <div className="relative z-0 w-full mb-5 group">
-          <label htmlFor="telefono countryCode" className="labelFormularioContacto">
+          <label htmlFor="telefono" className="labelFormularioContacto">
             Teléfono:
           </label>
+          <label htmlFor="countryCode"/>
 
           {/* Selector de Código de País */}
           <div className="flex">
@@ -252,9 +253,9 @@ export const FormularioContacto = ({ onCerrar }) => {
               name="telefono"
               id="telefono"
               className="w-3/4 ml-2 inputFormularioContacto peer"
-              placeholder="1234567890"
               maxLength={16}
               value={`${selectedCode} ${telefono}`}
+              placeholder="1234567890"
               onChange={handlePhoneChange}
             />
           </div>
