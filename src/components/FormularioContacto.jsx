@@ -186,6 +186,7 @@ export const FormularioContacto = ({ onCerrar }) => {
             Nombre Completo:
           </label>
           <input
+            maxLength={40}
             type="text"
             name="nombre"
             id="nombre"
@@ -208,6 +209,7 @@ export const FormularioContacto = ({ onCerrar }) => {
             id="email"
             className="inputFormularioContacto peer"
             placeholder="ejemplo@gmail.com"
+            maxLength={50}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -217,7 +219,7 @@ export const FormularioContacto = ({ onCerrar }) => {
           />
         </div>
         <div className="relative z-0 w-full mb-5 group">
-          <label htmlFor="telefono" className="labelFormularioContacto">
+          <label htmlFor="telefono countryCode" className="labelFormularioContacto">
             Teléfono:
           </label>
 
@@ -251,6 +253,7 @@ export const FormularioContacto = ({ onCerrar }) => {
               id="telefono"
               className="w-3/4 ml-2 inputFormularioContacto peer"
               placeholder="1234567890"
+              maxLength={16}
               value={`${selectedCode} ${telefono}`}
               onChange={handlePhoneChange}
             />
