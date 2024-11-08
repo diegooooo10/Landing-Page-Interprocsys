@@ -3,12 +3,12 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../backend/conexion";
 import xss from "xss";
-import { verificarLimiteSolicitudes } from "../../backend/limitacionSolicitudes"; // Importa la función
+import { verificarLimiteSolicitudes } from "../../backend/limitacionSolicitudes";
 
 export const FormularioContacto = ({ onCerrar }) => {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
-  const [telefono, setTelefono] = useState("");
+  const [telefono, setTelefono] = useState(""); // Mantener el número de teléfono completo
   const [mensaje, setMensaje] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -21,6 +21,38 @@ export const FormularioContacto = ({ onCerrar }) => {
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/;
   const regexTelefono = /^[0-9]{10}$/;
+
+  const [countryCodes, setCountryCodes] = useState([]);
+  const [selectedCode, setSelectedCode] = useState(""); // Código de país seleccionado
+
+  // Fetch country codes from REST Countries API
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all")
+      .then((response) => response.json())
+      .then((data) => {
+        const codes = data
+          .map((country) => ({
+            name: country.name.common,
+            code:
+              country.idd.root +
+              (country.idd.suffixes ? country.idd.suffixes[0] : ""),
+            flag: country.flags?.png || country.flags?.svg || null, // Ajusta aquí
+          }))
+          .filter((country) => country.code && country.flag); // Filtra países sin código o bandera
+
+        setCountryCodes(codes);
+      })
+      .catch((error) => console.error("Error fetching country codes:", error));
+  }, []);
+
+  const handleCountryChange = (event) => {
+    setSelectedCode(event.target.value); // Guardar el código del país
+  };
+
+  const handlePhoneChange = (event) => {
+    const phoneNumber = event.target.value.replace(/^\+\d+\s*/, ""); // Limpiar la parte del código de país
+    setTelefono(phoneNumber); // Guardar solo el número
+  };
 
   const handleFieldChange = () => {
     const fieldsAreValid =
@@ -80,7 +112,7 @@ export const FormularioContacto = ({ onCerrar }) => {
       // Sanitizar datos para prevenir XSS
       const sanitizedNombre = xss(nombre);
       const sanitizedEmail = xss(email);
-      const sanitizedTelefono = xss(telefono);
+      const sanitizedTelefono = xss(`+${selectedCode} ${telefono}`); // Sanitizar el teléfono con el código de país incluido
       const sanitizedMensaje = xss(mensaje);
 
       await addDoc(collection(db, "contacto"), {
@@ -186,18 +218,40 @@ export const FormularioContacto = ({ onCerrar }) => {
           <label htmlFor="telefono" className="labelFormularioContacto">
             Teléfono:
           </label>
-          <input
-            type="tel"
-            name="telefono"
-            id="telefono"
-            className="inputFormularioContacto peer"
-            placeholder="1234567890"
-            value={telefono}
-            onChange={(e) => {
-              setTelefono(e.target.value);
-              handleFieldChange();
-            }}
-          />
+
+          {/* Selector de Código de País */}
+          <div className="flex">
+            <select
+              id="countryCode"
+              className="w-[65px] sm:w-[65px] md:w-[80px] lg:w-[100px] text-sm text-black rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-TextoEspecial p-2"
+              value={selectedCode}
+              onChange={handleCountryChange}
+            >
+              <option value="" className="text-sm text-gray-500">
+                País
+              </option>
+              {countryCodes.map((country, index) => (
+                <option
+                  key={index}
+                  value={country.code}
+                  className="text-sm text-black"
+                >
+                  {country.name} ({country.code})
+                </option>
+              ))}
+            </select>
+
+            {/* Input de Teléfono */}
+            <input
+              type="tel"
+              name="telefono"
+              id="telefono"
+              className="w-3/4 ml-2 inputFormularioContacto peer"
+              placeholder="1234567890"
+              value={`${selectedCode} ${telefono}`}
+              onChange={handlePhoneChange}
+            />
+          </div>
         </div>
         <div className="relative z-0 w-full mb-5 group">
           <label htmlFor="mensaje" className="labelFormularioContacto">
@@ -226,7 +280,7 @@ export const FormularioContacto = ({ onCerrar }) => {
           )}
           <button
             type="submit"
-            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-auto px-5 py-2.5 text-center mb-3 ${
+            className={`md:mt-5 mt-2 text-black bg-TextoEspecial hover:opacity-80 font-medium rounded-lg text-sm md:text-base w-1/2 md:w-auto mx-auto px-5 py-2.5 text-center mb-3 ${
               isLoading || isLimitReached ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isLoading || isLimitReached}

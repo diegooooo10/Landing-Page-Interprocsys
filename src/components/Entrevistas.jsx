@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import entrevistasData from "../mocks/entrevistas.json";
 import { Link } from "react-router-dom";
 
@@ -8,6 +8,11 @@ export const Carousel = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [videoIframeSrc, setVideoIframeSrc] = useState(null);
+
   const mobileBreakpoint = 600; // px
 
   useEffect(() => {
@@ -15,10 +20,19 @@ export const Carousel = () => {
       setIsMobile(window.innerWidth <= mobileBreakpoint);
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    // Debounce resize listener
+    const resizeListener = () => {
+      clearTimeout(window.resizeTimer); // Limpiar el timer previo
+      window.resizeTimer = setTimeout(handleResize, 150); // Aplicar el debounce
+    };
 
-    return () => window.removeEventListener("resize", handleResize);
+    resizeListener(); // Llamada inicial
+    window.addEventListener("resize", resizeListener);
+
+    return () => {
+      window.removeEventListener("resize", resizeListener); // Limpiar el evento al desmontarse
+      clearTimeout(window.resizeTimer); // Limpiar el timer al desmontarse
+    };
   }, []);
 
   useEffect(() => {
@@ -27,6 +41,32 @@ export const Carousel = () => {
   }, []);
 
   const itemsToShow = isMobile ? entrevistas.length : 3;
+
+  // Usamos useMemo para memorizar el cálculo de maxIndex
+  const maxIndex = useMemo(
+    () => entrevistas.length - itemsToShow,
+    [entrevistas.length, itemsToShow]
+  );
+
+  // Usamos useMemo para memorizar el cálculo de visibleSlides
+  const visibleSlides = useMemo(
+    () => entrevistas.slice(currentIndex, currentIndex + itemsToShow),
+    [entrevistas, currentIndex, itemsToShow]
+  );
+
+  const openModal = (videoLink) => {
+    setSelectedVideo(videoLink);
+    setShowModal(true);
+    setTimeout(
+      () => setVideoIframeSrc(`${videoLink.replace("/view", "/preview")}`),
+      0
+    );
+  };
+
+  const closeModal = () => {
+    setSelectedVideo(null);
+    setShowModal(false);
+  };
 
   if (isLoading) {
     return (
@@ -42,8 +82,6 @@ export const Carousel = () => {
     );
   }
 
-  const maxIndex = entrevistas.length - itemsToShow;
-
   const goToPreviousSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : maxIndex));
   };
@@ -52,10 +90,6 @@ export const Carousel = () => {
     setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : 0));
   };
 
-  const visibleSlides = entrevistas.slice(
-    currentIndex,
-    currentIndex + itemsToShow
-  );
   return (
     <div className="relative flex flex-col items-center justify-start min-h-screen p-4 text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
       <Link
@@ -81,10 +115,50 @@ export const Carousel = () => {
         Diálogo con emprendimiento 2021
       </p>
 
+      {/* Modal para el video */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm">
+          <div className="relative w-full max-w-4xl p-6 transition-transform duration-300 ease-out transform scale-105 shadow-lg bg-FondoColor md:max-w-2xl lg:max-w-4xl xl:max-w-[1220px] md:p-8 rounded-xl">
+            <button
+              onClick={closeModal}
+              className="absolute text-red-500 transition-colors duration-300 top-4 right-4 hover:opacity-50"
+              aria-label="Cerrar"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute w-6 h-6 md:h-8 lg:right-[-16px] lg:top-[-16px] right-[-12px] top-[-9px] md:right-[-10px] md:top-[-10px] md:w-8 lg:h-10 lg:w-10"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <div className="w-full h-[70vh] md:h-[75vh] lg:h-[80vh]">
+              <iframe
+                src={videoIframeSrc}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full rounded-lg shadow-md"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Scroll en móviles */}
       <div
         className={`${
-          isMobile ? "overflow-y-scroll h-[90vh]" : "overflow-visible rounded-md sm:h-[600px]  md:h-[650px] lg:h-[600px]"
+          isMobile
+            ? "overflow-y-scroll h-[90vh]"
+            : "overflow-visible rounded-md sm:h-[600px]  md:h-[650px] lg:h-[600px]"
         } flex justify-center w-full max-w-6xl p-4 md:p-24 bg-stone-700 ring-4 ring-black`}
         style={{ marginTop: isMobile ? "0" : "-20px" }}
       >
@@ -105,12 +179,11 @@ export const Carousel = () => {
                     <img
                       src={entrevista.imagen?.url || "/img/default.webp"}
                       alt={`Imagen de la entrevista ${index}`}
-                      loading="lazy" // Carga diferida para mejorar rendimiento
+                      loading="lazy"
                       className="object-cover w-full h-full transition-transform duration-300 rounded-t-lg group-hover:scale-75 -translate-y-7"
                     />
                   </div>
                 </div>
-                {/* Nombre de la empresa, se oculta si es la tarjeta seleccionada */}
                 <div
                   className={`mt-4 text-lg font-bold text-center text-white transition-opacity duration-300 ${
                     isMobile && selectedCard === index
@@ -121,41 +194,40 @@ export const Carousel = () => {
                   {entrevista.empresa}
                 </div>
                 {entrevista.link && isMobile && selectedCard === index && (
-                  <a
-                    href={entrevista.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => openModal(entrevista.link)}
                     className="absolute w-24 px-3 py-3 font-bold text-center text-black transform -translate-x-1/2 -translate-y-1/2 rounded-md shadow-md bottom-4 left-1/2 bg-TextoEspecial md:w-32 lg:w-40 sm:py-1 sm:px-3 sm:text-sm md:py-3 md:px-6 md:text-lg hover:opacity-50"
                   >
                     Ver video
-                  </a>
+                  </button>
                 )}
               </div>
 
-              {/* Información en hover para pantallas de escritorio */}
               {!isMobile && (
                 <div className="absolute flex flex-col justify-center w-full p-4 transition-all duration-300 rounded-lg shadow-md opacity-0 h-90 top-44 group-hover:opacity-100 bg-stone-900">
                   <p className="font-semibold text-TextoEspecial">Empresa:</p>
                   <p className="text-white">{entrevista.empresa}</p>
-                  <p className="font-semibold text-TextoEspecial">Emprendedor:</p>
+                  <p className="font-semibold text-TextoEspecial">
+                    Emprendedor:
+                  </p>
                   <p className="text-white">
                     {entrevista.emprendedores.join(", ")}
                   </p>
-                  <p className="font-semibold text-TextoEspecial">Descripción:</p>
+                  <p className="font-semibold text-TextoEspecial">
+                    Descripción:
+                  </p>
                   <p className="text-white">{entrevista.descripcion}</p>
                   <p className="font-semibold text-TextoEspecial">Fecha:</p>
                   <p className="text-white">
                     {new Date(entrevista.fecha).toLocaleDateString("es-ES")}
                   </p>
 
-                  <a
-                    href={entrevista.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => openModal(entrevista.link)}
                     className="w-24 px-3 py-3 mx-auto font-bold text-center text-black rounded-md shadow-md bottom-4 left-1/2 bg-TextoEspecial md:w-32 lg:w-1/2 sm:py-1 sm:px-3 sm:text-sm md:py-3 md:px-6 md:text-lg hover:opacity-50"
                   >
                     Ver video
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -163,7 +235,6 @@ export const Carousel = () => {
         </div>
       </div>
 
-      {/* Flechas de navegación solo en escritorio */}
       {!isMobile && (
         <>
           <button
