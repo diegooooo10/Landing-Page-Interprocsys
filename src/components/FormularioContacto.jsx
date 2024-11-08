@@ -38,15 +38,19 @@ export const FormularioContacto = ({ onCerrar }) => {
               code:
                 country.idd.root +
                 (country.idd.suffixes ? country.idd.suffixes[0] : ""),
-              flag: country.flags?.png || country.flags?.svg || null, // Ajusta aquí
+              flag: country.flags?.png || country.flags?.svg || null,
             }))
             .filter((country) => country.code && country.flag); // Filtra países sin código o bandera
-
+  
+          // Ordenar los países alfabéticamente por el nombre
+          codes.sort((a, b) => a.name.localeCompare(b.name));
+  
           setCountryCodes(codes);
         })
         .catch((error) => console.error("Error fetching country codes:", error));
     }
   }, [isCountryCodesLoaded]); // Solo se ejecuta cuando isCountryCodesLoaded cambia
+  
   const handleCountryChange = (event) => {
     setSelectedCode(event.target.value); // Guardar el código del país
   };
@@ -219,9 +223,10 @@ export const FormularioContacto = ({ onCerrar }) => {
           />
         </div>
         <div className="relative z-0 w-full mb-5 group">
-          <label htmlFor="telefono countryCode" className="labelFormularioContacto">
+          <label htmlFor="telefono" className="labelFormularioContacto">
             Teléfono:
           </label>
+          <label htmlFor="countryCode"/>
 
           {/* Selector de Código de País */}
           <div className="flex">
@@ -252,9 +257,9 @@ export const FormularioContacto = ({ onCerrar }) => {
               name="telefono"
               id="telefono"
               className="w-3/4 ml-2 inputFormularioContacto peer"
-              placeholder="1234567890"
               maxLength={16}
               value={`${selectedCode} ${telefono}`}
+              placeholder="1234567890"
               onChange={handlePhoneChange}
             />
           </div>
