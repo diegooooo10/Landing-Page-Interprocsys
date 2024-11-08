@@ -19,14 +19,14 @@ export const FormularioContacto = ({ onCerrar }) => {
   const captcha = useRef(null);
   const [isCountryCodesLoaded, setIsCountryCodesLoaded] = useState(false);
 
+
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/;
   const regexTelefono = /^[0-9]{10}$/;
 
   const [countryCodes, setCountryCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState(""); // Código de país seleccionado
-
-  const loadCountryCodes = () => {
+  useEffect(() => {
     if (!isCountryCodesLoaded) {
       setIsCountryCodesLoaded(true);
       fetch("https://restcountries.com/v3.1/all")
@@ -38,16 +38,15 @@ export const FormularioContacto = ({ onCerrar }) => {
               code:
                 country.idd.root +
                 (country.idd.suffixes ? country.idd.suffixes[0] : ""),
+              flag: country.flags?.png || country.flags?.svg || null, // Ajusta aquí
             }))
-            .filter((country) => country.code); // Filtrar países sin código
+            .filter((country) => country.code && country.flag); // Filtra países sin código o bandera
+
           setCountryCodes(codes);
         })
-        .catch((error) =>
-          console.error("Error fetching country codes:", error)
-        );
+        .catch((error) => console.error("Error fetching country codes:", error));
     }
-  };
-
+  }, [isCountryCodesLoaded]); // Solo se ejecuta cuando isCountryCodesLoaded cambia
   const handleCountryChange = (event) => {
     setSelectedCode(event.target.value); // Guardar el código del país
   };
@@ -228,7 +227,7 @@ export const FormularioContacto = ({ onCerrar }) => {
               id="countryCode"
               className="w-[65px] sm:w-[65px] md:w-[80px] lg:w-[100px] text-sm text-black rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-TextoEspecial p-2"
               value={selectedCode}
-              onClick={loadCountryCodes} // Cambiado a onClick
+              
               onChange={handleCountryChange}
             >
               <option value="" className="text-sm text-gray-500">
@@ -252,7 +251,7 @@ export const FormularioContacto = ({ onCerrar }) => {
               id="telefono"
               className="w-3/4 ml-2 inputFormularioContacto peer"
               placeholder="1234567890"
-              value={telefono} // Solo el número de teléfono
+              value={`${selectedCode} ${telefono}`}
               onChange={handlePhoneChange}
             />
           </div>
@@ -300,3 +299,4 @@ export const FormularioContacto = ({ onCerrar }) => {
     </aside>
   );
 };
+
