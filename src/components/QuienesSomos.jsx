@@ -18,6 +18,7 @@ export const QuienesSomos = () => {
               className="object-contain h-[300px] w-[300px] md:h-[450px] md:w-[450px]"
               src="/image_team.webp"
               alt="Equipo"
+              loading="lazy"
             />
           </div>
         </div>
