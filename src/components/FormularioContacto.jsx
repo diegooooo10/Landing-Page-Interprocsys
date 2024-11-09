@@ -19,13 +19,26 @@ export const FormularioContacto = ({ onCerrar }) => {
   const captcha = useRef(null);
   const [isCountryCodesLoaded, setIsCountryCodesLoaded] = useState(false);
 
-
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/;
   const regexTelefono = /^[0-9]{10}$/;
 
   const [countryCodes, setCountryCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState(""); // Código de país seleccionado
+
+  const resetForm = () => {
+    setNombre("");
+    setEmail("");
+    setTelefono("");
+    setMensaje("");
+    setIsCaptchaValid(false);
+    setShowCaptcha(false);
+    setError("");
+    setSuccessMessage("");
+    setSelectedCode("");
+    captcha.current?.reset(); // Reiniciar el captcha
+  };
+
   useEffect(() => {
     if (!isCountryCodesLoaded) {
       setIsCountryCodesLoaded(true);
@@ -41,22 +54,26 @@ export const FormularioContacto = ({ onCerrar }) => {
               flag: country.flags?.png || country.flags?.svg || null,
             }))
             .filter((country) => country.code && country.flag); // Filtra países sin código o bandera
-  
+
           // Ordenar los países alfabéticamente por el nombre
           codes.sort((a, b) => a.name.localeCompare(b.name));
-  
+
           setCountryCodes(codes);
         })
-        .catch((error) => console.error("Error fetching country codes:", error));
+        .catch((error) =>
+          console.error("Error fetching country codes:", error)
+        );
     }
   }, [isCountryCodesLoaded]); // Solo se ejecuta cuando isCountryCodesLoaded cambia
-  
+
   const handleCountryChange = (event) => {
     setSelectedCode(event.target.value); // Guardar el código del país
   };
 
   const handlePhoneChange = (event) => {
-    const phoneNumber = event.target.value.replace(/^\+\d+\s*/, ""); // Limpiar la parte del código de país
+    const input = event.target.value.replace(selectedCode, "").trim(); // Quitar el código del valor actual
+    const phoneNumber = input.replace(/\D/g, "").slice(0, 10); // Permitir solo números y limitar a 10 dígitos
+
     setTelefono(phoneNumber); // Guardar solo el número
   };
 
@@ -133,6 +150,7 @@ export const FormularioContacto = ({ onCerrar }) => {
       setNombre("");
       setEmail("");
       setTelefono("");
+      setSelectedCode("");
       setMensaje("");
       setShowCaptcha(false); // Ocultar captcha después de enviar
     } catch (e) {
@@ -165,7 +183,10 @@ export const FormularioContacto = ({ onCerrar }) => {
       <div className="flex justify-between mb-4">
         <button
           className="md:px-3 px-0 w-[27px] h-[27px] md:w-[35px] md:h-[35px] text-black border bg-TextoEspecial border-TextoEspecial rounded-md hover:opacity-80 ring-pink-100"
-          onClick={onCerrar}
+          onClick={() => {
+            onCerrar();
+            resetForm();
+          }}
         >
           x
         </button>
@@ -226,7 +247,7 @@ export const FormularioContacto = ({ onCerrar }) => {
           <label htmlFor="telefono" className="labelFormularioContacto">
             Teléfono:
           </label>
-          <label htmlFor="countryCode"/>
+          <label htmlFor="countryCode" />
 
           {/* Selector de Código de País */}
           <div className="flex">
@@ -234,7 +255,6 @@ export const FormularioContacto = ({ onCerrar }) => {
               id="countryCode"
               className="w-[65px] sm:w-[65px] md:w-[80px] lg:w-[100px] text-sm text-black rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-TextoEspecial p-2"
               value={selectedCode}
-              
               onChange={handleCountryChange}
             >
               <option value="" className="text-sm text-gray-500">
@@ -257,9 +277,8 @@ export const FormularioContacto = ({ onCerrar }) => {
               name="telefono"
               id="telefono"
               className="w-3/4 ml-2 inputFormularioContacto peer"
-              maxLength={16}
-              value={`${selectedCode} ${telefono}`}
-              placeholder="1234567890"
+              value={`${selectedCode} ${telefono}`} // Mostrar el código y el número en el input
+              placeholder="+52 1234567890"
               onChange={handlePhoneChange}
             />
           </div>
@@ -307,4 +326,3 @@ export const FormularioContacto = ({ onCerrar }) => {
     </aside>
   );
 };
-

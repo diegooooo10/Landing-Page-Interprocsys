@@ -91,7 +91,7 @@ export const Carousel = () => {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-start min-h-screen p-4 text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
+    <div className="flex-col items-center content-center justify-center min-h-screen p-4 mx-auto text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
       <Link
         to="/"
         className={`absolute ${
@@ -158,7 +158,7 @@ export const Carousel = () => {
         className={`${
           isMobile
             ? "overflow-y-scroll h-[90vh]"
-            : "overflow-visible rounded-md sm:h-[600px]  md:h-[650px] lg:h-[600px]"
+            : "overflow-visible rounded-md mx-auto sm:min-h-[500px] h-[500px]  md:h-[650px] lg:h-[600px]"
         } flex justify-center w-full max-w-6xl p-4 md:p-24 bg-stone-700 ring-4 ring-black`}
         style={{ marginTop: isMobile ? "0" : "-20px" }}
       >

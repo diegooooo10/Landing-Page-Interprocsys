@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
   return (
-    <header className="bg-gradient-to-t from-FondoColor2 to-FondoEspecial ">
+    <header className=" md:h-screen bg-gradient-to-t from-FondoColor2 to-FondoEspecial">
       <div className="grid items-center grid-cols-3 p-2 pl-2 text-white md:pl-7 md:p-7">
         <div className="flex items-center">
           <img
