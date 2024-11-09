@@ -1,86 +1,46 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import entrevistasData from "../mocks/entrevistas.json";
 import { Link } from "react-router-dom";
 
 export const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [entrevistas, setEntrevistas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const [selectedCard, setSelectedCard] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [selectedVideo, setSelectedVideo] = useState(null);
   const [videoIframeSrc, setVideoIframeSrc] = useState(null);
 
-  const mobileBreakpoint = 600; // px
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= mobileBreakpoint);
-    };
-
-    // Debounce resize listener
-    const resizeListener = () => {
-      clearTimeout(window.resizeTimer); // Limpiar el timer previo
-      window.resizeTimer = setTimeout(handleResize, 150); // Aplicar el debounce
-    };
-
-    resizeListener(); // Llamada inicial
-    window.addEventListener("resize", resizeListener);
-
-    return () => {
-      window.removeEventListener("resize", resizeListener); // Limpiar el evento al desmontarse
-      clearTimeout(window.resizeTimer); // Limpiar el timer al desmontarse
-    };
-  }, []);
-
-  useEffect(() => {
-    setEntrevistas(entrevistasData.entrevistas || []);
-    setIsLoading(false);
-  }, []);
-
+  const entrevistas = useMemo(() => entrevistasData.entrevistas || [], []);
   const itemsToShow = isMobile ? entrevistas.length : 3;
+  const maxIndex = useMemo(() => entrevistas.length - itemsToShow, [entrevistas.length, itemsToShow]);
+  const visibleSlides = useMemo(() => entrevistas.slice(currentIndex, currentIndex + itemsToShow), [entrevistas, currentIndex, itemsToShow]);
 
-  // Usamos useMemo para memorizar el cálculo de maxIndex
-  const maxIndex = useMemo(
-    () => entrevistas.length - itemsToShow,
-    [entrevistas.length, itemsToShow]
-  );
+  const handleResize = useCallback(() => {
+    setIsMobile(window.innerWidth <= 600);
+  }, []);
 
-  // Usamos useMemo para memorizar el cálculo de visibleSlides
-  const visibleSlides = useMemo(
-    () => entrevistas.slice(currentIndex, currentIndex + itemsToShow),
-    [entrevistas, currentIndex, itemsToShow]
-  );
+  useEffect(() => {
+    const resizeListener = () => {
+      clearTimeout(window.resizeTimer);
+      window.resizeTimer = setTimeout(handleResize, 150);
+    };
+    window.addEventListener("resize", resizeListener);
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+      clearTimeout(window.resizeTimer);
+    };
+  }, [handleResize]);
 
   const openModal = (videoLink) => {
-    setSelectedVideo(videoLink);
     setShowModal(true);
-    setTimeout(
-      () => setVideoIframeSrc(`${videoLink.replace("/view", "/preview")}`),
-      0
-    );
+    setTimeout(() => {
+      setVideoIframeSrc(videoLink.replace("/view", "/preview"));
+    }, 0);
   };
 
   const closeModal = () => {
-    setSelectedVideo(null);
     setShowModal(false);
+    setVideoIframeSrc(null);
   };
-
-  if (isLoading) {
-    return (
-      <div className="text-center text-white">Cargando entrevistas...</div>
-    );
-  }
-
-  if (entrevistas.length === 0) {
-    return (
-      <div className="text-center text-white">
-        No hay entrevistas disponibles.
-      </div>
-    );
-  }
 
   const goToPreviousSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : maxIndex));
@@ -89,6 +49,7 @@ export const Carousel = () => {
   const goToNextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : 0));
   };
+
 
   return (
     <div className="flex-col items-center content-center justify-center min-h-screen p-4 mx-auto text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
@@ -157,10 +118,10 @@ export const Carousel = () => {
       <div
         className={`${
           isMobile
-            ? "overflow-y-scroll h-[90vh]"
+            ? "overflow-y-scroll h-screen"
             : "overflow-visible rounded-md mx-auto sm:min-h-[500px] h-[500px]  md:h-[650px] lg:h-[600px]"
         } flex justify-center w-full max-w-6xl p-4 md:p-24 bg-stone-700 ring-4 ring-black`}
-        style={{ marginTop: isMobile ? "0" : "-20px" }}
+        style={{ marginTop: isMobile ? "0" : "-35px" }}
       >
         <div
           className={`grid gap-5 md:gap-9 ${
