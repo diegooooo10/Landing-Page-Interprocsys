@@ -21,7 +21,8 @@ export const FormularioContacto = ({ onCerrar }) => {
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexNombre = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)+$/;
-  const regexTelefono = /^[0-9]{10}$/;
+  const regexTelefono = /^[0-9]{10,15}$/;
+
 
   const [countryCodes, setCountryCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState(""); // Código de país seleccionado
@@ -72,7 +73,7 @@ export const FormularioContacto = ({ onCerrar }) => {
 
   const handlePhoneChange = (event) => {
     const input = event.target.value.replace(selectedCode, "").trim(); // Quitar el código del valor actual
-    const phoneNumber = input.replace(/\D/g, "").slice(0, 10); // Permitir solo números y limitar a 10 dígitos
+    const phoneNumber = input.replace(/\D/g, "").slice(0, 20); // Permitir solo números y limitar a 20 dígitos
 
     setTelefono(phoneNumber); // Guardar solo el número
   };
@@ -106,7 +107,7 @@ export const FormularioContacto = ({ onCerrar }) => {
       return;
     }
     if (!regexTelefono.test(telefono)) {
-      setError("El número de teléfono debe tener 10 dígitos.");
+      setError("El número de teléfono es invalido");
       setIsLoading(false);
       return;
     }
@@ -179,7 +180,7 @@ export const FormularioContacto = ({ onCerrar }) => {
   }, [email]);
 
   return (
-    <aside className="fixed top-0 right-0 h-auto text-TextoEspecial bg-FondoColor rounded-md border border-TextoEspecial p-4 font-poppins z-50 w-3/4 sm:w-3/6 lg:w-[450px]">
+    <aside className="absolute top-0 right-0 h-auto text-TextoEspecial bg-FondoColor rounded-md border border-TextoEspecial p-4 font-poppins z-50 w-3/4 sm:w-3/6 lg:w-[450px]">
       <div className="flex justify-between mb-4">
         <button
           className="md:px-3 px-0 w-[27px] h-[27px] md:w-[35px] md:h-[35px] text-black border bg-TextoEspecial border-TextoEspecial rounded-md hover:opacity-80 ring-pink-100"

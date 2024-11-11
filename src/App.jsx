@@ -51,7 +51,7 @@ export const App = () => {
                 onEmpresaClick={() => scrollToSection(quienesSomosRef)}
               />
               <div
-                className={`fixed flex items-center justify-center transition-opacity duration-500 ${
+                className={` flex items-center justify-center transition-opacity duration-500 ${
                   mostrar
                     ? "opacity-100 pointer-events-auto"
                     : "opacity-0 pointer-events-none"
