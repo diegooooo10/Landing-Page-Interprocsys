@@ -136,7 +136,7 @@ export const FormularioContacto = ({ onCerrar }) => {
       // Sanitizar datos para prevenir XSS
       const sanitizedNombre = xss(nombre);
       const sanitizedEmail = xss(email);
-      const sanitizedTelefono = xss(`+${selectedCode} ${telefono}`); // Sanitizar el teléfono con el código de país incluido
+      const sanitizedTelefono = xss(`${selectedCode} ${telefono}`); // Sanitizar el teléfono con el código de país incluido
       const sanitizedMensaje = xss(mensaje);
 
       await addDoc(collection(db, "contacto"), {
