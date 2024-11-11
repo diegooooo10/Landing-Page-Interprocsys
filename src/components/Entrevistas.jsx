@@ -119,7 +119,7 @@ export const Carousel = () => {
         className={`${
           isMobile
             ? "overflow-y-scroll h-screen"
-            : "overflow-visible rounded-md mx-auto sm:min-h-[500px] h-[500px]  md:h-[650px] lg:h-[600px]"
+            : "overflow-y-scroll rounded-md mx-auto sm:min-h-[500px] h-[500px]  md:h-[650px] lg:h-[600px]"
         } flex justify-center w-full max-w-6xl p-4 md:p-24 bg-stone-700 ring-4 ring-black`}
         style={{ marginTop: isMobile ? "0" : "-35px" }}
       >
@@ -200,7 +200,7 @@ export const Carousel = () => {
         <>
           <button
             onClick={goToNextSlide}
-            className="absolute p-3 text-white transform -translate-y-1/2 bg-black rounded-full shadow-md right-4 top-1/2 hover:bg-gray-800"
+            className="absolute items-center content-center justify-center p-3 text-center text-white transform -translate-y-1/2 bg-black rounded-full shadow-md right-4 top-1/2 hover:bg-gray-800"
             aria-label="Anterior"
           >
             <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
