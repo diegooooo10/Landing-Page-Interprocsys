@@ -37,7 +37,7 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
 
       <div className="flex flex-col items-center justify-center w-full h-screen px-10 mx-auto lg:w-3/4 ">
         <div className="text-center">
-          <p className="mb-16 text-5xl font-semibold leading-snug md:text-6xl font-poppins">
+          <p className="mb-12 text-4xl font-semibold md:text-6xl font-poppins">
             <span className="text-white">Expertos en </span>
             <span className="text-TextoEspecial">Tecnologías </span>
             <br />
@@ -46,16 +46,16 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
             <span className="text-TextoEspecial">Blockchain </span>
           </p>
 
-          <p className="mb-16 text-xl font-semibold leading-snug text-white lg:text-2xl xl:text-3xl font-quicksand">
+          <p className="mb-12 text-2xl font-semibold leading-snug text-white lg:text-2xl xl:text-3xl font-quicksand">
             Transforma tu negocio hoy con soluciones innovadoras y
             personalizadas
           </p>
         </div>
 
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mb-5">
           <button
             onClick={handleMostrar}
-            className="p-3 text-2xl font-medium text-black rounded-md bg-TextoEspecial font-poppins xl:h-[80px] xl:w-[220px] lg:h-[60px] lg:w-[200px] hover:opacity-50 block md:hidden"
+            className="p-3 mb-5 text-xl font-medium text-black rounded-md bg-TextoEspecial font-poppins xl:h-[80px] xl:w-[220px] lg:h-[60px] lg:w-[200px] hover:opacity-50 block md:hidden"
           >
             Contáctanos
           </button>
