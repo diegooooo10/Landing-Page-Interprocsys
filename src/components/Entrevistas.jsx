@@ -11,11 +11,17 @@ export const Carousel = () => {
 
   const entrevistas = useMemo(() => entrevistasData.entrevistas || [], []);
   const itemsToShow = isMobile ? entrevistas.length : 3;
-  const maxIndex = useMemo(() => entrevistas.length - itemsToShow, [entrevistas.length, itemsToShow]);
-  const visibleSlides = useMemo(() => entrevistas.slice(currentIndex, currentIndex + itemsToShow), [entrevistas, currentIndex, itemsToShow]);
+  const maxIndex = useMemo(
+    () => entrevistas.length - itemsToShow,
+    [entrevistas.length, itemsToShow]
+  );
+  const visibleSlides = useMemo(
+    () => entrevistas.slice(currentIndex, currentIndex + itemsToShow),
+    [entrevistas, currentIndex, itemsToShow]
+  );
 
   const handleResize = useCallback(() => {
-    setIsMobile(window.innerWidth <= 600);
+    setIsMobile(window.innerWidth <= 700);
   }, []);
 
   useEffect(() => {
@@ -50,7 +56,6 @@ export const Carousel = () => {
     setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : 0));
   };
 
-
   return (
     <div className="flex-col items-center content-center justify-center min-h-screen p-4 mx-auto text-gray-300 bg-gradient-to-b bg-zinc-900 to-black">
       <Link
@@ -69,10 +74,10 @@ export const Carousel = () => {
         </svg>
       </Link>
 
-      <h2 className="mt-3 mb-2 text-3xl font-bold text-center text-TextoEspecial">
+      <h2 className="text-3xl font-bold text-center text-TextoEspecial">
         Entrevistas
       </h2>
-      <p className="text-2xl text-center text-white mb-14">
+      <p className="mb-12 text-2xl text-center text-white ">
         Diálogo con emprendimiento 2021
       </p>
 
@@ -119,8 +124,8 @@ export const Carousel = () => {
         className={`${
           isMobile
             ? "overflow-y-scroll h-screen"
-            : "overflow-y-scroll rounded-md mx-auto sm:min-h-[500px] h-[500px]  md:h-[650px] lg:h-[600px]"
-        } flex justify-center w-full max-w-6xl p-4 md:p-24 bg-stone-700 ring-4 ring-black`}
+            : "overflow-visible rounded-md mx-auto sm:min-h-[500px] h-[500px] md:h-[650px] lg:h-[600px]"
+        } relative flex justify-center w-full max-w-6xl p-4 md:p-24 bg-stone-700 ring-4 ring-black`}
         style={{ marginTop: isMobile ? "0" : "-35px" }}
       >
         <div
@@ -198,18 +203,21 @@ export const Carousel = () => {
 
       {!isMobile && (
         <>
+          {/* Flecha derecha */}
           <button
             onClick={goToNextSlide}
-            className="absolute items-center content-center justify-center p-3 text-center text-white transform -translate-y-1/2 bg-black rounded-full shadow-md right-4 top-1/2 hover:bg-gray-800"
+            className="absolute p-3 text-white transform -translate-y-[3%] bg-black rounded-full shadow-md right-4 top-1/2 hover:opacity-50"
             aria-label="Anterior"
           >
             <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8.59 16.59L13.17 12l-4.58-4.59L10 6l6 6-6 6z" />
             </svg>
           </button>
+
+          {/* Flecha izquierda */}
           <button
             onClick={goToPreviousSlide}
-            className="absolute p-3 text-white transform -translate-y-1/2 bg-black rounded-full shadow-md left-4 top-1/2 hover:bg-gray-800"
+            className="absolute p-3 text-white transform -translate-y-[3%] bg-black rounded-full shadow-md left-4 top-1/2 hover:opacity-50"
             aria-label="Siguiente"
           >
             <svg
