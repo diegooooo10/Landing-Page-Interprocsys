@@ -147,6 +147,8 @@ export const Carousel = () => {
                       alt={`Imagen de la entrevista ${index}`}
                       loading="lazy"
                       className="object-cover w-full h-full transition-transform duration-300 rounded-t-lg group-hover:scale-75 -translate-y-7"
+                      height={247}
+                      width={210}
                     />
                   </div>
                 </div>

@@ -84,6 +84,7 @@ export const ServiciosComputadora = () => {
                     src={serviceImages[servicio]}
                     alt={`Icono de ${servicio}`}
                     className="w-12 h-12"
+                    width={48}
                   />
                   <span className="text-lg text-TextoEspecial">{servicio}</span>
                 </div>
@@ -117,8 +118,11 @@ export const ServiciosComputadora = () => {
                 <img
                   src={detailImages[hoveredService]}
                   alt={`Detalle de ${hoveredService}`}
-                  loading="lazy" // Carga diferida
-                  className="object-cover w-1/3 h-auto ml-auto" // Tamaño máximo para limitar la carga
+                  loading="lazy"
+                  className="object-cover w-1/3 h-auto ml-auto" 
+                  height={164}
+                  width={240}
+                  
                 />
               </div>
             </div>
