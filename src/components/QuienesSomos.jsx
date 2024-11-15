@@ -19,6 +19,7 @@ export const QuienesSomos = () => {
               src="/image_team.webp"
               alt="Equipo"
               loading="lazy"
+              height={450}
             />
           </div>
         </div>

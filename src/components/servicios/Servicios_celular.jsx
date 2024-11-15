@@ -7,6 +7,7 @@ const ServiceSection = ({ servicio, details }) => {
           alt={`Icono de servicio: ${servicio}`}
           className="w-12 h-12 mr-4 md:w-14 md:h-14 lg:w-16 lg:h-16"
           loading="lazy"
+          width={64}
         />
         <span className="text-lg font-semibold text-[#4dd4ef] md:text-xl lg:text-2xl">
           {servicio}
@@ -38,6 +39,7 @@ const ServiceSection = ({ servicio, details }) => {
               alt={`Detalle de servicio: ${servicio}`}
               className="object-contain w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28"
               loading="lazy"
+              width={112}
             />
           </div>
         </div>

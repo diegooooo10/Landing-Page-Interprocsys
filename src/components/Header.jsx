@@ -10,6 +10,7 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
             alt="Interprocsys logo"
             className="h-[65px] w-[65px] xl:h-[125px] xl:w-[125px] object-cover"
             loading="lazy"
+            width={125}
           />
           <h1 className="ml-2 text-[18px] font-medium md:text-2xl lg:text-3xl font-poppins">
             INTERPROCSYS
@@ -37,7 +38,7 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
 
       <div className="flex flex-col items-center justify-center w-full h-screen px-10 mx-auto lg:w-3/4 ">
         <div className="text-center">
-          <p className="mb-12 text-4xl font-semibold md:text-6xl font-poppins">
+          <p className="mb-10 text-4xl font-semibold md:text-6xl font-poppins">
             <span className="text-white">Expertos en </span>
             <span className="text-TextoEspecial">Tecnologías </span>
             <br />
@@ -46,7 +47,7 @@ export const Header = ({ onServiciosClick, onEmpresaClick, handleMostrar }) => {
             <span className="text-TextoEspecial">Blockchain </span>
           </p>
 
-          <p className="mb-12 text-2xl font-semibold leading-snug text-white lg:text-2xl xl:text-3xl font-quicksand">
+          <p className="mb-10 text-2xl font-semibold leading-snug text-white lg:text-2xl xl:text-3xl font-quicksand">
             Transforma tu negocio hoy con soluciones innovadoras y
             personalizadas
           </p>
