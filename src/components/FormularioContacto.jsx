@@ -230,7 +230,7 @@ export const FormularioContacto = ({ onCerrar }) => {
             Correo Electrónico:
           </label>
           <input
-            type="email"
+            type="text"
             name="email"
             id="email"
             className="inputFormularioContacto peer"
