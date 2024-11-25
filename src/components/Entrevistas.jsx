@@ -192,7 +192,7 @@ export const Carousel = () => {
 
                   <button
                     onClick={() => openModal(entrevista.link)}
-                    className="w-24 px-3 py-3 mx-auto font-bold text-center text-black rounded-md shadow-md bottom-4 left-1/2 bg-TextoEspecial md:w-32 lg:w-1/2 sm:py-1 sm:px-3 sm:text-sm md:py-3 md:px-6 md:text-lg hover:opacity-50"
+                    className="w-auto px-3 py-3 mx-auto font-bold text-center text-black rounded-md shadow-md  bottom-4 left-1/2 bg-TextoEspecial sm:py-1 sm:px-3 sm:text-sm md:py-3 md:px-6 md:text-lg hover:opacity-50"
                   >
                     Ver video
                   </button>
